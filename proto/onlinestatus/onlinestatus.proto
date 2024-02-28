@@ -1,0 +1,33 @@
+syntax = "proto3";
+package onlinestatus;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/lite-social-presence-system/go/onlinestatuspb";
+
+
+message UserStatusRequest{
+ string user_id = 1;
+}
+
+message UserStatusResponse{
+ string status = 1;
+}
+
+message PartyMembersRequest{
+ string party_id = 1;
+}
+
+message PartyMembersResponse{
+ repeated string members = 1;
+}
+
+
+
+service UserStatusService {
+  rpc GetUserStatus( UserStatusRequest) returns ( stream UserStatusResponse);
+}
+
+service PartyService {
+  rpc GetPartyMembers( PartyMembersRequest) returns ( stream PartyMembersResponse);
+}
