@@ -16,6 +16,7 @@ type DB interface {
 	GetPartiesTable(ctx context.Context) Parties
 	GetPartyInvitationsTable(ctx context.Context) PartyInvitations
 	GetUsersTable(ctx context.Context) Users
+	GetPartyMembersTable(ctx context.Context) PartyMembers
 }
 
 type db struct {
@@ -53,7 +54,7 @@ func (d *db) GetFriendsTable(ctx context.Context) Friends {
 	friendsMutex.Lock()
 	defer friendsMutex.Unlock()
 	if friendsObject == nil {
-		friendsObject = &friends{d.conn}
+		friendsObject = &friends{d, d.conn}
 	}
 	return friendsObject
 }
@@ -64,7 +65,7 @@ func (d *db) GetFriendRequestsTable(ctx context.Context) FriendRequests {
 	friendRequestsMutex.Lock()
 	defer friendRequestsMutex.Unlock()
 	if friendRequestsObject == nil {
-		friendRequestsObject = &friendRequests{d.conn}
+		friendRequestsObject = &friendRequests{d, d.conn}
 	}
 	return friendRequestsObject
 }
@@ -75,7 +76,7 @@ func (d *db) GetPartiesTable(ctx context.Context) Parties {
 	partiesMutex.Lock()
 	defer partiesMutex.Unlock()
 	if partiesObject == nil {
-		partiesObject = &parties{d.conn}
+		partiesObject = &parties{d, d.conn}
 	}
 	return partiesObject
 }
@@ -86,7 +87,7 @@ func (d *db) GetPartyInvitationsTable(ctx context.Context) PartyInvitations {
 	partyInvitationsMutex.Lock()
 	defer partyInvitationsMutex.Unlock()
 	if friendpartyInvitationsObject == nil {
-		friendpartyInvitationsObject = &partyInvitations{d.conn}
+		friendpartyInvitationsObject = &partyInvitations{d, d.conn}
 	}
 	return friendpartyInvitationsObject
 }
@@ -97,7 +98,18 @@ func (d *db) GetUsersTable(ctx context.Context) Users {
 	usersMutex.Lock()
 	defer usersMutex.Unlock()
 	if usersObject == nil {
-		usersObject = &users{d.conn}
+		usersObject = &users{d, d.conn}
 	}
 	return usersObject
+}
+func (d *db) GetPartyMembersTable(ctx context.Context) PartyMembers {
+	if partyMembersObject != nil {
+		return partyMembersObject
+	}
+	partyMembersMutex.Lock()
+	defer partyMembersMutex.Unlock()
+	if partyMembersObject == nil {
+		partyMembersObject = &partyMembers{d, d.conn}
+	}
+	return partyMembersObject
 }
