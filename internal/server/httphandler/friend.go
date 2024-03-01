@@ -26,8 +26,8 @@ func ViewFriendsHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.
 		}
 		friendIds, err := d.GetFriendsTable(ctx).GetFriends(ctx, userId)
 		if err != nil {
-			logrus.WithError(err).Error("Error while reading friends")
-			util.SendErrorResponse(w, 500, "error while while reading friends")
+			logrus.WithError(err).Error("Error while getting friends")
+			util.SendErrorResponse(w, 500, "error while while getting friends")
 			return
 		}
 		logrus.Info("rows ", friendIds)
@@ -43,6 +43,7 @@ func ViewFriendsHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.
 		_, err = w.Write(b)
 		if err != nil {
 			logrus.Fatal("ERROR WHILE WRITING RESPONSE")
+			util.SendErrorResponse(w, 500, "error while writing body")
 			return
 		}
 		//NOTE: can introduce pagination in future
@@ -74,8 +75,8 @@ func AddFriendHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.Re
 			return
 		}
 		if err := d.GetFriendRequestsTable(ctx).SendFriendRequest(ctx, req.User, userId); err != nil {
-			logrus.WithError(err).Error("Error while reading friends")
-			util.SendErrorResponse(w, 500, "error while while reading friends")
+			logrus.WithError(err).Error("Error while sending friend request")
+			util.SendErrorResponse(w, 500, "error while sending friend request")
 			return
 		}
 		resp := &def.AddFriendResponse{
@@ -90,6 +91,7 @@ func AddFriendHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.Re
 		_, err = w.Write(b)
 		if err != nil {
 			logrus.Fatal("ERROR WHILE WRITING RESPONSE")
+			util.SendErrorResponse(w, 500, "error while writing body")
 			return
 		}
 	}
@@ -108,8 +110,8 @@ func RemoveFriendHandler(cfg *config.Config) func(w http.ResponseWriter, r *http
 			return
 		}
 		if err := d.GetFriendsTable(ctx).RemoveFriend(ctx, userId, friendId); err != nil {
-			logrus.WithError(err).Error("Error while reading friends")
-			util.SendErrorResponse(w, 500, "error while while reading friends")
+			logrus.WithError(err).Error("Error while removing friend")
+			util.SendErrorResponse(w, 500, "error while removing friend")
 			return
 		}
 		resp := &def.RemoveFriendResponse{
@@ -124,6 +126,7 @@ func RemoveFriendHandler(cfg *config.Config) func(w http.ResponseWriter, r *http
 		_, err = w.Write(b)
 		if err != nil {
 			logrus.Fatal("ERROR WHILE WRITING RESPONSE")
+			util.SendErrorResponse(w, 500, "error while writing body")
 			return
 		}
 	}

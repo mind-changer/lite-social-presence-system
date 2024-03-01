@@ -25,11 +25,11 @@ func AcceptFriendRequestHandler(cfg *config.Config) func(w http.ResponseWriter, 
 			return
 		}
 		if err := d.GetFriendRequestsTable(ctx).AcceptFriendRequest(ctx, userId, requesterId); err != nil {
-			logrus.WithError(err).Error("Error while reading friends")
-			util.SendErrorResponse(w, 500, "error while while reading friends")
+			logrus.WithError(err).Error("Error while adding friend")
+			util.SendErrorResponse(w, 500, "error while adding friend")
 			return
 		}
-		resp := &def.AddFriendResponse{
+		resp := &def.AcceptFriendRequestResponse{
 			Status: "FRIEND_ADDED",
 		}
 		b, err := json.Marshal(resp)
@@ -41,12 +41,13 @@ func AcceptFriendRequestHandler(cfg *config.Config) func(w http.ResponseWriter, 
 		_, err = w.Write(b)
 		if err != nil {
 			logrus.Fatal("ERROR WHILE WRITING RESPONSE")
+			util.SendErrorResponse(w, 500, "error while writing body")
 			return
 		}
 	}
 }
 
-func DeleteFriendRequestHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.Request) {
+func RejectFriendRequestHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		pathVars := mux.Vars(r)
@@ -59,11 +60,11 @@ func DeleteFriendRequestHandler(cfg *config.Config) func(w http.ResponseWriter, 
 			return
 		}
 		if err := d.GetFriendRequestsTable(ctx).RejectFriendRequest(ctx, userId, requesterId); err != nil {
-			logrus.WithError(err).Error("Error while reading friends")
-			util.SendErrorResponse(w, 500, "error while while reading friends")
+			logrus.WithError(err).Error("Error while rejecting friend request")
+			util.SendErrorResponse(w, 500, "error while rejecting friend request")
 			return
 		}
-		resp := &def.AddFriendResponse{
+		resp := &def.RejectRequestResponse{
 			Status: "FRIEND_REQUEST_REJECTED",
 		}
 		b, err := json.Marshal(resp)
@@ -75,6 +76,7 @@ func DeleteFriendRequestHandler(cfg *config.Config) func(w http.ResponseWriter, 
 		_, err = w.Write(b)
 		if err != nil {
 			logrus.Fatal("ERROR WHILE WRITING RESPONSE")
+			util.SendErrorResponse(w, 500, "error while writing body")
 			return
 		}
 	}

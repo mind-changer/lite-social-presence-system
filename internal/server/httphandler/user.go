@@ -28,7 +28,7 @@ func UpdateUserStatusHandler(cfg *config.Config) func(w http.ResponseWriter, r *
 		err = json.Unmarshal(b, req)
 		if err != nil {
 			logrus.WithError(err).Error("Error while json decoding request")
-			util.SendErrorResponse(w, 500, "error while getting json decoding request")
+			util.SendErrorResponse(w, 500, "error while json decoding request")
 			return
 		}
 		d, err := db.GetDBObject(ctx, cfg.Postgres)
@@ -38,8 +38,8 @@ func UpdateUserStatusHandler(cfg *config.Config) func(w http.ResponseWriter, r *
 			return
 		}
 		if err := d.GetUsersTable(ctx).UpdateUserStatus(ctx, userId, req.UserStatus); err != nil {
-			logrus.WithError(err).Error("Error while reading friends")
-			util.SendErrorResponse(w, 500, "error while while reading friends")
+			logrus.WithError(err).Error("Error while updating user status")
+			util.SendErrorResponse(w, 500, "error while updating user status")
 			return
 		}
 		resp := &def.UpdateUserStatusResponse{
@@ -54,6 +54,7 @@ func UpdateUserStatusHandler(cfg *config.Config) func(w http.ResponseWriter, r *
 		_, err = w.Write(b)
 		if err != nil {
 			logrus.Fatal("ERROR WHILE WRITING RESPONSE")
+			util.SendErrorResponse(w, 500, "error while writing body")
 			return
 		}
 	}

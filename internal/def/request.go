@@ -1,9 +1,13 @@
 package def
 
 type AddFriendRequest struct {
-	User string `json:"userId,omitempty"`
+	UserId string `json:"userId,omitempty"`
 }
 
 type UpdateUserStatusRequest struct {
 	UserStatus string `json:"userStatus,omitempty"`
+}
+
+type SendPartyInvitationRequest struct {
+	UserId string `json:"userId,omitempty"`
 }

@@ -15,3 +15,34 @@ type RemoveFriendResponse struct {
 type UpdateUserStatusResponse struct {
 	Status string `json:"status,omitempty"`
 }
+
+type AcceptFriendRequestResponse struct {
+	Status string `json:"status,omitempty"`
+}
+
+type RejectRequestResponse struct {
+	Status string `json:"status,omitempty"`
+}
+
+type CreatePartyResponse struct {
+	PartyId string `json:"partyId,omitempty"`
+}
+
+type SendPartyInvitationResponse struct {
+	Status string `json:"status,omitempty"`
+}
+
+type AcceptPartyInvitationResponse struct {
+	Status string `json:"status,omitempty"`
+}
+
+type RejectPartyInvitationResponse struct {
+	Status string `json:"status,omitempty"`
+}
+
+type KickPartyMemberResponse struct {
+	Status string `json:"status,omitempty"`
+}
+type LeavePartyResponse struct {
+	Status string `json:"status,omitempty"`
+}

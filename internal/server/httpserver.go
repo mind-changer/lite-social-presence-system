@@ -24,7 +24,7 @@ func registerAPIHandlers(r *mux.Router, cfg *config.Config) {
 	//ACCEPT friend request
 	r.HandleFunc("/lite-social-presence-system/users/{user-id}/friend-requests/{requester-id}", httphandler.AcceptFriendRequestHandler(cfg)).Methods("PATCH")
 	//REJECT friend request
-	r.HandleFunc("/lite-social-presence-system/users/{user-id}/friend-requests/{requester-id}", httphandler.DeleteFriendRequestHandler(cfg)).Methods("DELETE")
+	r.HandleFunc("/lite-social-presence-system/users/{user-id}/friend-requests/{requester-id}", httphandler.RejectFriendRequestHandler(cfg)).Methods("DELETE")
 
 	//CREATE party
 	r.HandleFunc("/lite-social-presence-system/users/{user-id}/parties", httphandler.CreatePartyHandler(cfg)).Methods("POST")
@@ -38,6 +38,7 @@ func registerAPIHandlers(r *mux.Router, cfg *config.Config) {
 
 	//KICK party member
 	r.HandleFunc("/lite-social-presence-system/users/{user-id}/parties/{party-id}/members/{member_id}", httphandler.KickPartyMemberHandler(cfg)).Methods("DELETE")
+
 	//LEAVE party
 	r.HandleFunc("/lite-social-presence-system/users/{user-id}/joined-parties/current/{party-id}", httphandler.LeavePartyHandler(cfg)).Methods("DELETE")
 }
