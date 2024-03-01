@@ -1,43 +1,36 @@
 package grpchandler
 
-import (
-	"io"
-	"log"
+// func SendTripData(srv onlinestatuspb.TripService_SendTripDataServer) error {
+// 	log.Println("start new server")
+// 	ctx := srv.Context()
+// 	for {
 
-	onlinestatuspb "github.com/lite-social-presence-system/pb/onlinestatus"
-)
+// 		// exit if context is done
+// 		// or continue
+// 		select {
+// 		case <-ctx.Done():
+// 			return ctx.Err()
+// 		default:
+// 		}
 
-func SendTripData(srv onlinestatuspb.TripService_SendTripDataServer) error {
-	log.Println("start new server")
-	ctx := srv.Context()
-	for {
+// 		// receive data from stream
+// 		req, err := srv.Recv()
+// 		if err == io.EOF {
+// 			// return will close stream from server side
+// 			log.Println("exit")
+// 			return nil
+// 		}
+// 		if err != nil {
+// 			log.Printf("receive error %v", err)
+// 			continue
+// 		}
+// 		resp := &onlinestatuspb.TripSummaryResponse{
+// 			Distance: req.Latitude,
+// 			Charge:   10,
+// 		}
+// 		if err := srv.Send(resp); err != nil {
+// 			log.Printf("send error %v", err)
+// 		}
+// 	}
 
-		// exit if context is done
-		// or continue
-		select {
-		case <-ctx.Done():
-			return ctx.Err()
-		default:
-		}
-
-		// receive data from stream
-		req, err := srv.Recv()
-		if err == io.EOF {
-			// return will close stream from server side
-			log.Println("exit")
-			return nil
-		}
-		if err != nil {
-			log.Printf("receive error %v", err)
-			continue
-		}
-		resp := &onlinestatuspb.TripSummaryResponse{
-			Distance: req.Latitude,
-			Charge:   10,
-		}
-		if err := srv.Send(resp); err != nil {
-			log.Printf("send error %v", err)
-		}
-	}
-
-}
+// }

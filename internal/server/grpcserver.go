@@ -21,12 +21,12 @@ type partyServer struct {
 
 func (s *userStatusServer) GetUserStatus(in *onlinestatuspb.UserStatusRequest, stream onlinestatuspb.UserStatusService_GetUserStatusServer) error {
 	logrus.Println("get user status called")
-	return grpchandler.GetUserStatus(in, stream)
+	return grpchandler.GetUserStatus(in, stream, s.cfg)
 }
 
 func (s *partyServer) GetPartyMembers(in *onlinestatuspb.PartyMembersRequest, stream onlinestatuspb.PartyService_GetPartyMembersServer) error {
 	logrus.Println("get party members called")
-	return grpchandler.GetPartyMembers(in, stream)
+	return grpchandler.GetPartyMembers(in, stream, s.cfg)
 }
 
 func registerGrpcServices(s *grpc.Server, cfg *config.Config) {
