@@ -8,7 +8,7 @@ import (
 	"github.com/lite-social-presence-system/config"
 )
 
-func SendPartyInvitationHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.Request) {
+func KickPartyMemberHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		c, err := w.Write([]byte("this is friend handling"))
 		if err != nil {
@@ -18,17 +18,7 @@ func SendPartyInvitationHandler(cfg *config.Config) func(w http.ResponseWriter, 
 	}
 }
 
-func AcceptPartyInvitationHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		c, err := w.Write([]byte("this is friend handling"))
-		if err != nil {
-			log.Fatal("ERROR WHILE WRITING RESPONSE")
-		}
-		fmt.Println(c)
-	}
-}
-
-func RejectPartyInvitationHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.Request) {
+func LeavePartyHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		c, err := w.Write([]byte("this is friend handling"))
 		if err != nil {

@@ -17,13 +17,3 @@ func CreatePartyHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.
 		fmt.Println(c)
 	}
 }
-
-func UpdatePartyHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		c, err := w.Write([]byte("this is friend handling"))
-		if err != nil {
-			log.Fatal("ERROR WHILE WRITING RESPONSE")
-		}
-		fmt.Println(c)
-	}
-}
