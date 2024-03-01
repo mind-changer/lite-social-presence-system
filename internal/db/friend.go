@@ -26,7 +26,6 @@ var friendsObject *friends
 
 func (f *friends) GetFriends(ctx context.Context, userId string) ([]string, error) {
 	query := fmt.Sprintf(`select friend_id from friends where user_id='%s'`, userId)
-	logrus.Info("query ", query)
 	rows, err := f.conn.Query(ctx, query)
 	if err != nil {
 		logrus.WithError(err).Error("Error while getting user friends")
@@ -49,12 +48,11 @@ func (f *friends) GetFriends(ctx context.Context, userId string) ([]string, erro
 func (f *friends) IsFriend(ctx context.Context, userId1, userId2 string) (bool, error) {
 	query := `SELECT EXISTS(SELECT 1 FROM friends WHERE user_id=$1 AND friend_id=$2)`
 	exists := false
-	err := f.conn.QueryRow(ctx, userId1, userId2).Scan(&exists)
+	err := f.conn.QueryRow(ctx, query, userId1, userId2).Scan(&exists)
 	if err != nil {
-		logrus.WithError(err).Error("Error while getting user friends")
+		logrus.WithError(err).Error("Error while checking if friend")
 		return false, err
 	}
-	logrus.Info("query,id1,id2 ", query, userId1, userId2)
 	logrus.Info(exists)
 	return exists, nil
 }
@@ -68,7 +66,7 @@ func (f *friends) AddFriend(ctx context.Context, userId, friendId string) error 
 	}
 	friendExists, err := usersTable.UserExists(ctx, friendId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while checking if user exists")
+		logrus.WithError(err).Error("Error while checking if friend exists")
 		return err
 	}
 	if !userExists {
@@ -77,7 +75,16 @@ func (f *friends) AddFriend(ctx context.Context, userId, friendId string) error 
 	}
 	if !friendExists {
 		logrus.WithError(err).Error("Friend doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		return fmt.Errorf("friend doesnt exist")
+	}
+	exists, err := f.IsFriend(ctx, userId, friendId)
+	if err != nil {
+		logrus.WithError(err).Error("Error while checking if friend  exists")
+		return err
+	}
+	if exists {
+		logrus.WithError(err).Error("Friend already exists")
+		return err
 	}
 	insertSql := `
 	insert into friends(user_id,friend_id) 
@@ -105,12 +112,12 @@ func (f *friends) RemoveFriend(ctx context.Context, userId, friendId string) err
 	}
 	friendExists, err := usersTable.UserExists(ctx, friendId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while checking if user exists")
+		logrus.WithError(err).Error("Error while checking if friend exists")
 		return err
 	}
 	if !friendExists {
 		logrus.WithError(err).Error("Friend doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		return fmt.Errorf("friend doesnt exist")
 	}
 	deleteSql := `
 	DELETE FROM friends
@@ -118,7 +125,7 @@ func (f *friends) RemoveFriend(ctx context.Context, userId, friendId string) err
 	`
 	_, err = f.conn.Exec(ctx, deleteSql, userId, friendId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while inserting friend")
+		logrus.WithError(err).Error("Error while deleting friend")
 		return err
 	}
 	return nil

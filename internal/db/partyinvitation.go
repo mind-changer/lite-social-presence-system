@@ -37,30 +37,39 @@ func (p *partyInvitations) SendPartyInvitation(ctx context.Context, partyId, own
 	}
 	ownerExists, err := usersTable.UserExists(ctx, ownerId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while checking if user exists")
+		logrus.WithError(err).Error("Error while checking if owner exists")
 		return err
 	}
 	if !ownerExists {
-		logrus.WithError(err).Error("Friend doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		logrus.WithError(err).Error("Owner doesnt exist")
+		return fmt.Errorf("owner doesnt exist")
 	}
 	partyExists, err := p.db.GetPartiesTable(ctx).PartyExists(ctx, partyId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while checking if user exists")
+		logrus.WithError(err).Error("Error while checking if party exists")
 		return err
 	}
 	if !partyExists {
-		logrus.WithError(err).Error("Friend request doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		logrus.WithError(err).Error("Party doesnt exist")
+		return fmt.Errorf("party doesnt exist")
 	}
 	isFriend, err := p.db.GetFriendsTable(ctx).IsFriend(ctx, ownerId, userId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while checking if user exists")
+		logrus.WithError(err).Error("Error while checking if friend exists")
 		return err
 	}
 	if !isFriend {
-		logrus.WithError(err).Error("Friend request doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		logrus.WithError(err).Error("Friend doesnt exist")
+		return fmt.Errorf("friend doesnt exist")
+	}
+	exists, err := p.PartyInvitationExists(ctx, partyId, userId)
+	if err != nil {
+		logrus.WithError(err).Error("Error while checking if party invitation exists")
+		return err
+	}
+	if exists {
+		logrus.WithError(err).Error("party invitation already exists")
+		return err
 	}
 
 	insertSql := `
@@ -69,7 +78,7 @@ func (p *partyInvitations) SendPartyInvitation(ctx context.Context, partyId, own
 	`
 	_, err = p.conn.Exec(ctx, insertSql, partyId, userId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while inserting friend")
+		logrus.WithError(err).Error("Error while inserting party invitation")
 		return err
 	}
 	return nil
@@ -80,10 +89,9 @@ func (p *partyInvitations) PartyInvitationExists(ctx context.Context, partyId, u
 	exists := false
 	err := p.conn.QueryRow(ctx, query, partyId, userId).Scan(&exists)
 	if err != nil {
-		logrus.WithError(err).Error("Error while getting user friends")
+		logrus.WithError(err).Error("Error while checking if party invitation exists")
 		return false, err
 	}
-	logrus.Info("query,id ", query, userId)
 	logrus.Info(exists)
 	return exists, nil
 }
@@ -91,15 +99,15 @@ func (p *partyInvitations) PartyInvitationExists(ctx context.Context, partyId, u
 func (p *partyInvitations) AcceptPartyInvitation(ctx context.Context, partyId, userId string) error {
 	partyInvExists, err := p.PartyInvitationExists(ctx, partyId, userId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while checking if user exists")
+		logrus.WithError(err).Error("Error while checking if party invitation exists")
 		return err
 	}
 	if !partyInvExists {
-		logrus.WithError(err).Error("Friend request doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		logrus.WithError(err).Error("Party invitation doesnt exist")
+		return fmt.Errorf("party invitation doesnt exist")
 	}
 	if err := p.db.GetPartyMembersTable(ctx).AddPartyMember(ctx, partyId, userId); err != nil {
-		logrus.WithError(err).Error("Error while inserting friend")
+		logrus.WithError(err).Error("Error while inserting party member")
 		return err
 	}
 	return nil
@@ -109,12 +117,12 @@ func (p *partyInvitations) RejectPartyInvitation(ctx context.Context, partyId, u
 
 	partyInvExists, err := p.PartyInvitationExists(ctx, partyId, userId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while checking if user exists")
+		logrus.WithError(err).Error("Error while checking if party invitation exists")
 		return err
 	}
 	if !partyInvExists {
-		logrus.WithError(err).Error("Friend request doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		logrus.WithError(err).Error("Party invitation doesnt exist")
+		return fmt.Errorf("party invitation  doesnt exist")
 	}
 	userExists, err := p.db.GetUsersTable(ctx).UserExists(ctx, userId)
 	if err != nil {
@@ -131,7 +139,7 @@ func (p *partyInvitations) RejectPartyInvitation(ctx context.Context, partyId, u
 	`
 	_, err = p.conn.Exec(ctx, insertSql, userId, partyId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while inserting friend")
+		logrus.WithError(err).Error("Error while deleting party invitation")
 		return err
 	}
 	return nil

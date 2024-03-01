@@ -31,18 +31,27 @@ func (f *friendRequests) SendFriendRequest(ctx context.Context, userId, requeste
 		logrus.WithError(err).Error("Error while checking if user exists")
 		return err
 	}
-	requesterExists, err := usersTable.UserExists(ctx, requesterId)
-	if err != nil {
-		logrus.WithError(err).Error("Error while checking if user exists")
-		return err
-	}
 	if !userExists {
 		logrus.WithError(err).Error("User doesnt exist")
 		return fmt.Errorf("user doesnt exist")
 	}
+	requesterExists, err := usersTable.UserExists(ctx, requesterId)
+	if err != nil {
+		logrus.WithError(err).Error("Error while checking if requester exists")
+		return err
+	}
 	if !requesterExists {
-		logrus.WithError(err).Error("Friend doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		logrus.WithError(err).Error("requester doesnt exist")
+		return fmt.Errorf("requester doesnt exist")
+	}
+	exists, err := f.FriendRequestExists(ctx, userId, requesterId)
+	if err != nil {
+		logrus.WithError(err).Error("Error while checking if friend request exists")
+		return err
+	}
+	if exists {
+		logrus.WithError(err).Error("Friend request already exists")
+		return err
 	}
 	insertSql := `
 	insert into friend_requests(user_id,requester_id) 
@@ -50,7 +59,7 @@ func (f *friendRequests) SendFriendRequest(ctx context.Context, userId, requeste
 	`
 	_, err = f.conn.Exec(ctx, insertSql, userId, requesterId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while inserting friend")
+		logrus.WithError(err).Error("Error while inserting friend request")
 		return err
 	}
 	return nil
@@ -61,10 +70,9 @@ func (f *friendRequests) FriendRequestExists(ctx context.Context, userId, reques
 	exists := false
 	err := f.conn.QueryRow(ctx, query, userId, requesterId).Scan(&exists)
 	if err != nil {
-		logrus.WithError(err).Error("Error while getting user friends")
+		logrus.WithError(err).Error("Error while checking if friend request exists")
 		return false, err
 	}
-	logrus.Info("query,id ", query, userId)
 	logrus.Info(exists)
 	return exists, nil
 }
@@ -82,21 +90,21 @@ func (f *friendRequests) AcceptFriendRequest(ctx context.Context, userId, reques
 	}
 	requesterExists, err := usersTable.UserExists(ctx, requesterId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while checking if user exists")
+		logrus.WithError(err).Error("Error while checking if requester exists")
 		return err
 	}
 	if !requesterExists {
-		logrus.WithError(err).Error("Friend doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		logrus.WithError(err).Error("Requester doesnt exist")
+		return fmt.Errorf("requester doesnt exist")
 	}
 	friendReqExists, err := f.db.GetFriendRequestsTable(ctx).FriendRequestExists(ctx, userId, requesterId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while checking if user exists")
+		logrus.WithError(err).Error("Error while checking if friend req exists")
 		return err
 	}
 	if !friendReqExists {
 		logrus.WithError(err).Error("Friend request doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		return fmt.Errorf("friend req doesnt exist")
 	}
 	insertSql := `
 	insert into friends(user_id,friend_id) 
@@ -115,12 +123,12 @@ func (f *friendRequests) RejectFriendRequest(ctx context.Context, userId, reques
 
 	friendReqExists, err := f.db.GetFriendRequestsTable(ctx).FriendRequestExists(ctx, userId, requesterId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while checking if user exists")
+		logrus.WithError(err).Error("Error while checking if friend req exists")
 		return err
 	}
 	if !friendReqExists {
 		logrus.WithError(err).Error("Friend request doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		return fmt.Errorf("friend req doesnt exist")
 	}
 	insertSql := `
 	DELETE from friend_requests
@@ -128,7 +136,7 @@ func (f *friendRequests) RejectFriendRequest(ctx context.Context, userId, reques
 	`
 	_, err = f.conn.Exec(ctx, insertSql, userId, requesterId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while inserting friend")
+		logrus.WithError(err).Error("Error while deleting friend request")
 		return err
 	}
 	return nil

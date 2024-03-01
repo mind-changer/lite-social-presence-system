@@ -14,6 +14,7 @@ type PartyMembers interface {
 	KickPartyMember(ctx context.Context, partyId, ownerId, memberId string) error
 	LeaveParty(ctx context.Context, partyId, memberId string) error
 	AddPartyMember(ctx context.Context, partyId, userId string) error
+	PartyMemberExists(ctx context.Context, partyId, userId string) (bool, error)
 }
 
 type partyMembers struct {
@@ -29,14 +30,14 @@ func (f *partyMembers) GetPartyMembers(ctx context.Context, partyId string) ([]s
 	logrus.Info("query ", query)
 	rows, err := f.conn.Query(ctx, query, partyId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while getting user friends")
+		logrus.WithError(err).Error("Error while getting party members")
 		return nil, err
 	}
 	partyMembers := make([]string, 0)
 	for rows.Next() {
 		partyMember := ""
 		if err := rows.Scan(&partyMember); err != nil {
-			logrus.WithError(err).Error("Error while decoding friends")
+			logrus.WithError(err).Error("Error while decoding party members")
 			return nil, err
 		}
 		partyMembers = append(partyMembers, partyMember)
@@ -59,12 +60,21 @@ func (p *partyMembers) AddPartyMember(ctx context.Context, partyId, userId strin
 	}
 	partyExists, err := p.db.GetPartiesTable(ctx).PartyExists(ctx, partyId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while checking if user exists")
+		logrus.WithError(err).Error("Error while checking if party exists")
 		return err
 	}
 	if !partyExists {
-		logrus.WithError(err).Error("Friend doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		logrus.WithError(err).Error("party doesnt exist")
+		return fmt.Errorf("party doesnt exist")
+	}
+	exists, err := p.PartyMemberExists(ctx, partyId, userId)
+	if err != nil {
+		logrus.WithError(err).Error("Error while checking if party member exists")
+		return err
+	}
+	if exists {
+		logrus.WithError(err).Error("party member already exists")
+		return err
 	}
 	insertSql := `
 	insert into party_members(party_id,user_id) 
@@ -72,43 +82,34 @@ func (p *partyMembers) AddPartyMember(ctx context.Context, partyId, userId strin
 	`
 	_, err = p.conn.Exec(ctx, insertSql, partyId, userId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while inserting friend")
+		logrus.WithError(err).Error("Error while inserting party member")
 		return err
 	}
 	return nil
 }
 
 func (p *partyMembers) KickPartyMember(ctx context.Context, partyId, ownerId, memberId string) error {
-	usersTable := p.db.GetUsersTable(ctx)
-	userExists, err := usersTable.UserExists(ctx, memberId)
+	ownerExists, err := p.db.GetUsersTable(ctx).UserExists(ctx, ownerId)
 	if err != nil {
-		logrus.WithError(err).Error("Error while checking if user exists")
-		return err
-	}
-	if !userExists {
-		logrus.WithError(err).Error("User doesnt exist")
-		return fmt.Errorf("user doesnt exist")
-	}
-	partyExists, err := p.db.GetPartiesTable(ctx).PartyExists(ctx, partyId)
-	if err != nil {
-		logrus.WithError(err).Error("Error while checking if user exists")
-		return err
-	}
-	ownerExists, err := usersTable.UserExists(ctx, ownerId)
-	if err != nil {
-		logrus.WithError(err).Error("Error while checking if user exists")
+		logrus.WithError(err).Error("Error while checking if owner exists")
 		return err
 	}
 	if !ownerExists {
-		logrus.WithError(err).Error("User doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		logrus.WithError(err).Error("Owner doesnt exist")
+		return fmt.Errorf("owner doesnt exist")
 	}
-	if !partyExists {
-		logrus.WithError(err).Error("Friend doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+	isOwner, err := p.db.GetPartiesTable(ctx).IsOwner(ctx, partyId, ownerId)
+	if err != nil {
+		logrus.WithError(err).Error("Error while checking if owner exists")
+		return err
 	}
+	if !isOwner {
+		logrus.WithError(err).Error("Access denied. Requires owner access")
+		return fmt.Errorf("access denied. requires owner access")
+	}
+
 	if err = p.LeaveParty(ctx, partyId, memberId); err != nil {
-		logrus.WithError(err).Error("Error while checking if user exists")
+		logrus.WithError(err).Error("Error while leaving party")
 		return err
 	}
 	return nil
@@ -144,4 +145,17 @@ func (p *partyMembers) LeaveParty(ctx context.Context, partyId, userId string) e
 		return err
 	}
 	return nil
+}
+
+func (p *partyMembers) PartyMemberExists(ctx context.Context, partyId, userId string) (bool, error) {
+	query := `SELECT EXISTS(SELECT 1 FROM party_members WHERE party_id=$1 AND user_id=$2)`
+	exists := false
+	err := p.conn.QueryRow(ctx, query, partyId, userId).Scan(&exists)
+	if err != nil {
+		logrus.WithError(err).Error("Error while getting user friends")
+		return false, err
+	}
+	logrus.Info("query,id ", query, userId)
+	logrus.Info(exists)
+	return exists, nil
 }
