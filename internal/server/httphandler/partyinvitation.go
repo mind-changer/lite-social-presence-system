@@ -18,7 +18,7 @@ func SendPartyInvitationHandler(cfg *config.Config) func(w http.ResponseWriter, 
 		ctx := r.Context()
 		pathVars := mux.Vars(r)
 		ownerId := pathVars["user-id"]
-		partyId := pathVars["party_id"]
+		partyId := pathVars["party-id"]
 		b, err := io.ReadAll(r.Body)
 		if err != nil {
 			logrus.WithError(err).Error("Error while reading body")
@@ -66,7 +66,7 @@ func AcceptPartyInvitationHandler(cfg *config.Config) func(w http.ResponseWriter
 		ctx := r.Context()
 		pathVars := mux.Vars(r)
 		userId := pathVars["user-id"]
-		partyId := pathVars["party_id"]
+		partyId := pathVars["party-id"]
 		d, err := db.GetDBObject(ctx, cfg.Postgres)
 		if err != nil {
 			logrus.WithError(err).Error("Error while getting db object")
@@ -101,7 +101,7 @@ func RejectPartyInvitationHandler(cfg *config.Config) func(w http.ResponseWriter
 		ctx := r.Context()
 		pathVars := mux.Vars(r)
 		userId := pathVars["user-id"]
-		partyId := pathVars["party_id"]
+		partyId := pathVars["party-id"]
 		d, err := db.GetDBObject(ctx, cfg.Postgres)
 		if err != nil {
 			logrus.WithError(err).Error("Error while getting db object")

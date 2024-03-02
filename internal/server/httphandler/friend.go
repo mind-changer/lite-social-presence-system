@@ -74,7 +74,7 @@ func AddFriendHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.Re
 			util.SendErrorResponse(w, 500, "error while getting db object")
 			return
 		}
-		if err := d.GetFriendRequestsTable(ctx).SendFriendRequest(ctx, req.User, userId); err != nil {
+		if err := d.GetFriendRequestsTable(ctx).SendFriendRequest(ctx, req.UserId, userId); err != nil {
 			logrus.WithError(err).Error("Error while sending friend request")
 			util.SendErrorResponse(w, 500, "error while sending friend request")
 			return

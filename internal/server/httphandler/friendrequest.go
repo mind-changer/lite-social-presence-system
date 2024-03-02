@@ -17,7 +17,7 @@ func AcceptFriendRequestHandler(cfg *config.Config) func(w http.ResponseWriter, 
 		ctx := r.Context()
 		pathVars := mux.Vars(r)
 		userId := pathVars["user-id"]
-		requesterId := pathVars["requester_id"]
+		requesterId := pathVars["requester-id"]
 		d, err := db.GetDBObject(ctx, cfg.Postgres)
 		if err != nil {
 			logrus.WithError(err).Error("Error while getting db object")
@@ -52,7 +52,7 @@ func RejectFriendRequestHandler(cfg *config.Config) func(w http.ResponseWriter, 
 		ctx := r.Context()
 		pathVars := mux.Vars(r)
 		userId := pathVars["user-id"]
-		requesterId := pathVars["requester_id"]
+		requesterId := pathVars["requester-id"]
 		d, err := db.GetDBObject(ctx, cfg.Postgres)
 		if err != nil {
 			logrus.WithError(err).Error("Error while getting db object")
