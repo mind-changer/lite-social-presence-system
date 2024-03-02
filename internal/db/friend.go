@@ -78,6 +78,15 @@ func (f *friends) AddFriend(ctx context.Context, userId, friendId string) error 
 		logrus.WithError(err).Error("Friend doesnt exist")
 		return def.CreateClientError(400, "friend doesnt exist")
 	}
+	friendReqExists, err := f.db.GetFriendRequestsTable(ctx).FriendRequestExists(ctx, friendId, userId)
+	if err != nil {
+		logrus.WithError(err).Error("Error while checking if friend req exists")
+		return err
+	}
+	if !friendReqExists {
+		logrus.WithError(err).Error("Friend request doesnt exist")
+		return def.CreateClientError(400, "friend req doesnt exist")
+	}
 	exists, err := f.IsFriend(ctx, userId, friendId)
 	if err != nil {
 		logrus.WithError(err).Error("Error while checking if friend  exists")
@@ -88,9 +97,10 @@ func (f *friends) AddFriend(ctx context.Context, userId, friendId string) error 
 		return def.CreateClientError(409, "friend already exists")
 	}
 	insertSql := `
-	insert into friends(user_id,friend_id) 
-	values($1,$2),
-	values($2,$1);
+	insert into friends(user_id,friend_id)
+	values
+	($1,$2),
+	($2,$1);
 	`
 	_, err = f.conn.Exec(ctx, insertSql, userId, friendId)
 	if err != nil {

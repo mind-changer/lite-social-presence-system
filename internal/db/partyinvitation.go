@@ -12,7 +12,7 @@ import (
 type PartyInvitations interface {
 	SendPartyInvitation(ctx context.Context, partyId, ownerId, userId string) error
 	AcceptPartyInvitation(ctx context.Context, partyId, userId string) error
-	RejectPartyInvitation(ctx context.Context, partyId, userId string) error
+	DeletePartyInvitation(ctx context.Context, partyId, userId string) error
 	PartyInvitationExists(ctx context.Context, partyId, userId string) (bool, error)
 }
 
@@ -110,10 +110,14 @@ func (p *partyInvitations) AcceptPartyInvitation(ctx context.Context, partyId, u
 		logrus.WithError(err).Error("Error while inserting party member")
 		return err
 	}
+	if err := p.DeletePartyInvitation(ctx, partyId, userId); err != nil {
+		logrus.WithError(err).Error("Error while deleting party invitation")
+		return err
+	}
 	return nil
 }
 
-func (p *partyInvitations) RejectPartyInvitation(ctx context.Context, partyId, userId string) error {
+func (p *partyInvitations) DeletePartyInvitation(ctx context.Context, partyId, userId string) error {
 
 	partyInvExists, err := p.PartyInvitationExists(ctx, partyId, userId)
 	if err != nil {

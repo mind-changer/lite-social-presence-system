@@ -53,7 +53,7 @@ func LeavePartyHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.R
 		ctx := r.Context()
 		pathVars := mux.Vars(r)
 		partyId := pathVars["party-id"]
-		memberId := pathVars["member-id"]
+		memberId := pathVars["user-id"]
 		d, err := db.GetDBObject(ctx, cfg.Postgres)
 		if err != nil {
 			logrus.WithError(err).Error("Error while getting db object")
