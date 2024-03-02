@@ -39,6 +39,10 @@ func UpdateUserStatusHandler(cfg *config.Config) func(w http.ResponseWriter, r *
 		}
 		if err := d.GetUsersTable(ctx).UpdateUserStatus(ctx, userId, req.UserStatus); err != nil {
 			logrus.WithError(err).Error("Error while updating user status")
+			if e, ok := err.(*def.ClientError); ok {
+				util.SendErrorResponse(w, e.Code, e.Message)
+				return
+			}
 			util.SendErrorResponse(w, 500, "error while updating user status")
 			return
 		}

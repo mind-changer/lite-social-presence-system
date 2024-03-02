@@ -27,6 +27,10 @@ func KickPartyMemberHandler(cfg *config.Config) func(w http.ResponseWriter, r *h
 		}
 		if err := d.GetPartyMembersTable(ctx).KickPartyMember(ctx, partyId, ownerId, memberId); err != nil {
 			logrus.WithError(err).Error("Error while kicking party member")
+			if e, ok := err.(*def.ClientError); ok {
+				util.SendErrorResponse(w, e.Code, e.Message)
+				return
+			}
 			util.SendErrorResponse(w, 500, "error while kicking party member")
 			return
 		}
@@ -62,6 +66,10 @@ func LeavePartyHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.R
 		}
 		if err := d.GetPartyMembersTable(ctx).LeaveParty(ctx, partyId, memberId); err != nil {
 			logrus.WithError(err).Error("Error while leaving party")
+			if e, ok := err.(*def.ClientError); ok {
+				util.SendErrorResponse(w, e.Code, e.Message)
+				return
+			}
 			util.SendErrorResponse(w, 500, "error while leaving party")
 			return
 		}

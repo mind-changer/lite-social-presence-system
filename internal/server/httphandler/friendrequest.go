@@ -26,6 +26,10 @@ func AcceptFriendRequestHandler(cfg *config.Config) func(w http.ResponseWriter, 
 		}
 		if err := d.GetFriendRequestsTable(ctx).AcceptFriendRequest(ctx, userId, requesterId); err != nil {
 			logrus.WithError(err).Error("Error while adding friend")
+			if e, ok := err.(*def.ClientError); ok {
+				util.SendErrorResponse(w, e.Code, e.Message)
+				return
+			}
 			util.SendErrorResponse(w, 500, "error while adding friend")
 			return
 		}
@@ -61,6 +65,10 @@ func RejectFriendRequestHandler(cfg *config.Config) func(w http.ResponseWriter, 
 		}
 		if err := d.GetFriendRequestsTable(ctx).DeleteFriendRequest(ctx, userId, requesterId); err != nil {
 			logrus.WithError(err).Error("Error while rejecting friend request")
+			if e, ok := err.(*def.ClientError); ok {
+				util.SendErrorResponse(w, e.Code, e.Message)
+				return
+			}
 			util.SendErrorResponse(w, 500, "error while rejecting friend request")
 			return
 		}

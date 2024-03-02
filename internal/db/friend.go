@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"sync"
 
 	"github.com/jackc/pgx/v5"
@@ -26,8 +25,17 @@ var friendsMutex sync.Mutex
 var friendsObject *friends
 
 func (f *friends) GetFriends(ctx context.Context, userId string) ([]string, error) {
-	query := fmt.Sprintf(`select friend_id from friends where user_id='%s'`, userId)
-	rows, err := f.conn.Query(ctx, query)
+	userExists, err := f.db.GetUsersTable(ctx).UserExists(ctx, userId)
+	if err != nil {
+		logrus.WithError(err).Error("Error while checking if user exists")
+		return nil, err
+	}
+	if !userExists {
+		logrus.WithError(err).Error("User doesnt exist")
+		return nil, def.CreateClientError(404, "user doesnt exist")
+	}
+	query := `select friend_id from friends where user_id=$1`
+	rows, err := f.conn.Query(ctx, query, userId)
 	if err != nil {
 		logrus.WithError(err).Error("Error while getting user friends")
 		return nil, err
@@ -72,11 +80,11 @@ func (f *friends) AddFriend(ctx context.Context, userId, friendId string) error 
 	}
 	if !userExists {
 		logrus.WithError(err).Error("User doesnt exist")
-		return def.CreateClientError(400, "user doesnt exist")
+		return def.CreateClientError(404, "user doesnt exist")
 	}
 	if !friendExists {
 		logrus.WithError(err).Error("Friend doesnt exist")
-		return def.CreateClientError(400, "friend doesnt exist")
+		return def.CreateClientError(404, "friend doesnt exist")
 	}
 	friendReqExists, err := f.db.GetFriendRequestsTable(ctx).FriendRequestExists(ctx, friendId, userId)
 	if err != nil {
@@ -85,7 +93,7 @@ func (f *friends) AddFriend(ctx context.Context, userId, friendId string) error 
 	}
 	if !friendReqExists {
 		logrus.WithError(err).Error("Friend request doesnt exist")
-		return def.CreateClientError(400, "friend req doesnt exist")
+		return def.CreateClientError(404, "friend req doesnt exist")
 	}
 	exists, err := f.IsFriend(ctx, userId, friendId)
 	if err != nil {
@@ -119,7 +127,7 @@ func (f *friends) RemoveFriend(ctx context.Context, userId, friendId string) err
 	}
 	if !userExists {
 		logrus.WithError(err).Error("User doesnt exist")
-		return def.CreateClientError(400, "user doesnt exist")
+		return def.CreateClientError(404, "user doesnt exist")
 	}
 	friendExists, err := usersTable.UserExists(ctx, friendId)
 	if err != nil {
@@ -128,7 +136,7 @@ func (f *friends) RemoveFriend(ctx context.Context, userId, friendId string) err
 	}
 	if !friendExists {
 		logrus.WithError(err).Error("Friend doesnt exist")
-		return def.CreateClientError(400, "friend doesnt exist")
+		return def.CreateClientError(404, "friend doesnt exist")
 	}
 	deleteSql := `
 	DELETE FROM friends

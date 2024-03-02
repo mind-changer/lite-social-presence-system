@@ -26,6 +26,10 @@ func CreatePartyHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.
 		partyId, err := d.GetPartiesTable(ctx).CreateParty(ctx, userId)
 		if err != nil {
 			logrus.WithError(err).Error("Error while creating party")
+			if e, ok := err.(*def.ClientError); ok {
+				util.SendErrorResponse(w, e.Code, e.Message)
+				return
+			}
 			util.SendErrorResponse(w, 500, "error while creating party")
 			return
 		}

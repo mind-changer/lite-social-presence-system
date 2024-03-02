@@ -40,6 +40,10 @@ func SendPartyInvitationHandler(cfg *config.Config) func(w http.ResponseWriter, 
 		}
 		if err := d.GetPartyInvitationsTable(ctx).SendPartyInvitation(ctx, partyId, ownerId, req.UserId); err != nil {
 			logrus.WithError(err).Error("Error while sending party invitation")
+			if e, ok := err.(*def.ClientError); ok {
+				util.SendErrorResponse(w, e.Code, e.Message)
+				return
+			}
 			util.SendErrorResponse(w, 500, "error while sending party invitation")
 			return
 		}
@@ -75,6 +79,10 @@ func AcceptPartyInvitationHandler(cfg *config.Config) func(w http.ResponseWriter
 		}
 		if err := d.GetPartyInvitationsTable(ctx).AcceptPartyInvitation(ctx, partyId, userId); err != nil {
 			logrus.WithError(err).Error("Error while accepting party invitation")
+			if e, ok := err.(*def.ClientError); ok {
+				util.SendErrorResponse(w, e.Code, e.Message)
+				return
+			}
 			util.SendErrorResponse(w, 500, "error while accepting party invitation")
 			return
 		}
@@ -110,6 +118,10 @@ func RejectPartyInvitationHandler(cfg *config.Config) func(w http.ResponseWriter
 		}
 		if err := d.GetPartyInvitationsTable(ctx).DeletePartyInvitation(ctx, partyId, userId); err != nil {
 			logrus.WithError(err).Error("Error while rejecting party invitation")
+			if e, ok := err.(*def.ClientError); ok {
+				util.SendErrorResponse(w, e.Code, e.Message)
+				return
+			}
 			util.SendErrorResponse(w, 500, "error while rejecting party invitation")
 			return
 		}
