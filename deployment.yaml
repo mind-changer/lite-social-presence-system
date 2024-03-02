@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lite-social-presence-system-deployment
+  labels:
+    app: lite-social-presence-system-app
+spec:
+  selector:
+    matchLabels:
+      app:  lite-social-presence-system-app
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app:  lite-social-presence-system-app
+    spec:
+      containers:
+        - name:  lite-social-presence-system
+          image: docker.io/library/lite-social-presence-system-app:latest
+          imagePullPolicy: Never
+          resources:
+            limits:
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 200Mi
+          ports:
+            - containerPort: 80
+            - containerPort: 81
