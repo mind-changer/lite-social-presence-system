@@ -3,6 +3,7 @@ module github.com/lite-social-presence-system
 go 1.21.1
 
 require (
+	github.com/google/uuid v1.6.0
 	github.com/gorilla/mux v1.8.1
 	github.com/jackc/pgx/v5 v5.5.3
 	github.com/joho/godotenv v1.5.1
