@@ -26,7 +26,7 @@ var partyMembersMutex sync.Mutex
 var partyMembersObject *partyMembers
 
 func (f *partyMembers) GetPartyMembers(ctx context.Context, partyId string) ([]string, error) {
-	query := `select user_id from party_members where party_id=$1`
+	query := `select member_id from party_members where party_id=$1`
 	logrus.Info("query ", query)
 	rows, err := f.conn.Query(ctx, query, partyId)
 	if err != nil {
@@ -77,8 +77,8 @@ func (p *partyMembers) AddPartyMember(ctx context.Context, partyId, userId strin
 		return def.CreateClientError(409, "party member already exists")
 	}
 	insertSql := `
-	insert into party_members(party_id,user_id) 
-	values($1,$2),
+	insert into party_members(party_id,member_id) 
+	values($1,$2);
 	`
 	_, err = p.conn.Exec(ctx, insertSql, partyId, userId)
 	if err != nil {
@@ -137,7 +137,7 @@ func (p *partyMembers) LeaveParty(ctx context.Context, partyId, userId string) e
 	}
 	deleteSql := `
 	DELETE FROM party_members
-	WHERE party_id=$1 AND user_id=$2;	
+	WHERE party_id=$1 AND member_id=$2;	
 	`
 	_, err = p.conn.Exec(ctx, deleteSql, partyId, userId)
 	if err != nil {
@@ -148,7 +148,7 @@ func (p *partyMembers) LeaveParty(ctx context.Context, partyId, userId string) e
 }
 
 func (p *partyMembers) PartyMemberExists(ctx context.Context, partyId, userId string) (bool, error) {
-	query := `SELECT EXISTS(SELECT 1 FROM party_members WHERE party_id=$1 AND user_id=$2)`
+	query := `SELECT EXISTS(SELECT 1 FROM party_members WHERE party_id=$1 AND member_id=$2)`
 	exists := false
 	err := p.conn.QueryRow(ctx, query, partyId, userId).Scan(&exists)
 	if err != nil {
