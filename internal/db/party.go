@@ -33,7 +33,7 @@ func (p *parties) CreateParty(ctx context.Context, ownerId string) (string, erro
 	}
 	if !userExists {
 		logrus.WithError(err).Error("User doesnt exist")
-		return "", def.CreateClientError(400, "user doesnt exist")
+		return "", def.CreateClientError(404, "user doesnt exist")
 	}
 
 	insertSql := `

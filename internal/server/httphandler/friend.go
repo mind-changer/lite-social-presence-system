@@ -27,6 +27,10 @@ func ViewFriendsHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.
 		friendIds, err := d.GetFriendsTable(ctx).GetFriends(ctx, userId)
 		if err != nil {
 			logrus.WithError(err).Error("Error while getting friends")
+			if e, ok := err.(*def.ClientError); ok {
+				util.SendErrorResponse(w, e.Code, e.Message)
+				return
+			}
 			util.SendErrorResponse(w, 500, "error while while getting friends")
 			return
 		}
@@ -76,6 +80,10 @@ func AddFriendHandler(cfg *config.Config) func(w http.ResponseWriter, r *http.Re
 		}
 		if err := d.GetFriendRequestsTable(ctx).SendFriendRequest(ctx, req.UserId, userId); err != nil {
 			logrus.WithError(err).Error("Error while sending friend request")
+			if e, ok := err.(*def.ClientError); ok {
+				util.SendErrorResponse(w, e.Code, e.Message)
+				return
+			}
 			util.SendErrorResponse(w, 500, "error while sending friend request")
 			return
 		}
@@ -111,6 +119,10 @@ func RemoveFriendHandler(cfg *config.Config) func(w http.ResponseWriter, r *http
 		}
 		if err := d.GetFriendsTable(ctx).RemoveFriend(ctx, userId, friendId); err != nil {
 			logrus.WithError(err).Error("Error while removing friend")
+			if e, ok := err.(*def.ClientError); ok {
+				util.SendErrorResponse(w, e.Code, e.Message)
+				return
+			}
 			util.SendErrorResponse(w, 500, "error while removing friend")
 			return
 		}

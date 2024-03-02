@@ -26,6 +26,15 @@ var partyMembersMutex sync.Mutex
 var partyMembersObject *partyMembers
 
 func (f *partyMembers) GetPartyMembers(ctx context.Context, partyId string) ([]string, error) {
+	partyExists, err := f.db.GetPartiesTable(ctx).PartyExists(ctx, partyId)
+	if err != nil {
+		logrus.WithError(err).Error("Error while checking if party exists")
+		return nil, err
+	}
+	if !partyExists {
+		logrus.WithError(err).Error("Party doesnt exist")
+		return nil, def.CreateClientError(404, "party doesnt exist")
+	}
 	query := `select member_id from party_members where party_id=$1`
 	logrus.Info("query ", query)
 	rows, err := f.conn.Query(ctx, query, partyId)
@@ -56,7 +65,7 @@ func (p *partyMembers) AddPartyMember(ctx context.Context, partyId, userId strin
 	}
 	if !userExists {
 		logrus.WithError(err).Error("User doesnt exist")
-		return def.CreateClientError(400, "user doesnt exist")
+		return def.CreateClientError(404, "user doesnt exist")
 	}
 	partyExists, err := p.db.GetPartiesTable(ctx).PartyExists(ctx, partyId)
 	if err != nil {
@@ -65,7 +74,7 @@ func (p *partyMembers) AddPartyMember(ctx context.Context, partyId, userId strin
 	}
 	if !partyExists {
 		logrus.WithError(err).Error("party doesnt exist")
-		return def.CreateClientError(400, "party doesnt exist")
+		return def.CreateClientError(404, "party doesnt exist")
 	}
 	exists, err := p.PartyMemberExists(ctx, partyId, userId)
 	if err != nil {
@@ -96,7 +105,7 @@ func (p *partyMembers) KickPartyMember(ctx context.Context, partyId, ownerId, me
 	}
 	if !ownerExists {
 		logrus.WithError(err).Error("Owner doesnt exist")
-		return def.CreateClientError(400, "owner doesnt exist")
+		return def.CreateClientError(404, "owner doesnt exist")
 	}
 	isOwner, err := p.db.GetPartiesTable(ctx).IsOwner(ctx, partyId, ownerId)
 	if err != nil {
@@ -105,7 +114,7 @@ func (p *partyMembers) KickPartyMember(ctx context.Context, partyId, ownerId, me
 	}
 	if !isOwner {
 		logrus.WithError(err).Error("Access denied. Requires owner access")
-		return def.CreateClientError(400, "access denied. requires owner access")
+		return def.CreateClientError(403, "access denied. requires owner access")
 	}
 
 	if err = p.LeaveParty(ctx, partyId, memberId); err != nil {
@@ -124,7 +133,7 @@ func (p *partyMembers) LeaveParty(ctx context.Context, partyId, userId string) e
 	}
 	if !userExists {
 		logrus.WithError(err).Error("User doesnt exist")
-		return def.CreateClientError(400, "user doesnt exist")
+		return def.CreateClientError(404, "user doesnt exist")
 	}
 	partyExists, err := p.db.GetPartiesTable(ctx).PartyExists(ctx, partyId)
 	if err != nil {
@@ -132,8 +141,17 @@ func (p *partyMembers) LeaveParty(ctx context.Context, partyId, userId string) e
 		return err
 	}
 	if !partyExists {
-		logrus.WithError(err).Error("Friend doesnt exist")
-		return def.CreateClientError(400, "user doesnt exist")
+		logrus.WithError(err).Error("Party doesnt exist")
+		return def.CreateClientError(404, "party doesnt exist")
+	}
+	partyMemberExists, err := p.PartyMemberExists(ctx, partyId, userId)
+	if err != nil {
+		logrus.WithError(err).Error("Error while checking if party member exists")
+		return err
+	}
+	if !partyMemberExists {
+		logrus.WithError(err).Error("Party member doesnt exist")
+		return def.CreateClientError(404, "party member doesnt exist")
 	}
 	deleteSql := `
 	DELETE FROM party_members

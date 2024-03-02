@@ -24,9 +24,18 @@ var usersMutex sync.Mutex
 var usersObject *users
 
 func (u *users) GetUserStatus(ctx context.Context, userId string) (string, error) {
+	userExists, err := u.db.GetUsersTable(ctx).UserExists(ctx, userId)
+	if err != nil {
+		logrus.WithError(err).Error("Error while checking if user exists")
+		return "", err
+	}
+	if !userExists {
+		logrus.WithError(err).Error("User doesnt exist")
+		return "", def.CreateClientError(404, "user doesnt exist")
+	}
 	query := "SELECT status FROM users WHERE id=$1"
 	status := ""
-	err := u.conn.QueryRow(ctx, "SELECT status FROM users WHERE id=$1", userId).Scan(&status)
+	err = u.conn.QueryRow(ctx, "SELECT status FROM users WHERE id=$1", userId).Scan(&status)
 	if err != nil {
 		logrus.WithError(err).Error("Error while getting user status")
 		return "", err
@@ -56,7 +65,16 @@ func (u *users) UpdateUserStatus(ctx context.Context, userId, status string) err
 	}
 	if !userExists {
 		logrus.WithError(err).Error("User doesnt exist")
-		return def.CreateClientError(400, "user doesnt exist")
+		return def.CreateClientError(404, "user doesnt exist")
+	}
+	userExists, err = u.db.GetUsersTable(ctx).UserExists(ctx, userId)
+	if err != nil {
+		logrus.WithError(err).Error("Error while checking if user exists")
+		return err
+	}
+	if !userExists {
+		logrus.WithError(err).Error("User doesnt exist")
+		return def.CreateClientError(404, "user doesnt exist")
 	}
 
 	updateSql := "UPDATE users SET status=$1 WHERE id=$2"
