@@ -120,7 +120,7 @@ func loadDB(ctx context.Context, conn *pgx.Conn) error {
 	values 
 	 ('bnb','hillock123'),
 	 ('hillock123','bnb'),
-	 ('hillock123','amanora45');
+	 ('hillock123','amanora45'),
 	 ('amanora45','hillock123');
 	`
 	ct, err = conn.Exec(ctx, query)
