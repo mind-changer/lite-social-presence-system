@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/lite-social-presence-system/internal/def"
 	"github.com/sirupsen/logrus"
 )
 
@@ -71,11 +72,11 @@ func (f *friends) AddFriend(ctx context.Context, userId, friendId string) error 
 	}
 	if !userExists {
 		logrus.WithError(err).Error("User doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		return def.CreateClientError(400, "user doesnt exist")
 	}
 	if !friendExists {
 		logrus.WithError(err).Error("Friend doesnt exist")
-		return fmt.Errorf("friend doesnt exist")
+		return def.CreateClientError(400, "friend doesnt exist")
 	}
 	exists, err := f.IsFriend(ctx, userId, friendId)
 	if err != nil {
@@ -84,7 +85,7 @@ func (f *friends) AddFriend(ctx context.Context, userId, friendId string) error 
 	}
 	if exists {
 		logrus.WithError(err).Error("Friend already exists")
-		return err
+		return def.CreateClientError(409, "friend already exists")
 	}
 	insertSql := `
 	insert into friends(user_id,friend_id) 
@@ -108,7 +109,7 @@ func (f *friends) RemoveFriend(ctx context.Context, userId, friendId string) err
 	}
 	if !userExists {
 		logrus.WithError(err).Error("User doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		return def.CreateClientError(400, "user doesnt exist")
 	}
 	friendExists, err := usersTable.UserExists(ctx, friendId)
 	if err != nil {
@@ -117,7 +118,7 @@ func (f *friends) RemoveFriend(ctx context.Context, userId, friendId string) err
 	}
 	if !friendExists {
 		logrus.WithError(err).Error("Friend doesnt exist")
-		return fmt.Errorf("friend doesnt exist")
+		return def.CreateClientError(400, "friend doesnt exist")
 	}
 	deleteSql := `
 	DELETE FROM friends

@@ -2,10 +2,10 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"sync"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/lite-social-presence-system/internal/def"
 	"github.com/sirupsen/logrus"
 )
 
@@ -56,7 +56,7 @@ func (u *users) UpdateUserStatus(ctx context.Context, userId, status string) err
 	}
 	if !userExists {
 		logrus.WithError(err).Error("User doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		return def.CreateClientError(400, "user doesnt exist")
 	}
 
 	updateSql := "UPDATE users SET status=$1 WHERE id=$2"

@@ -2,11 +2,11 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"sync"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
+	"github.com/lite-social-presence-system/internal/def"
 	"github.com/sirupsen/logrus"
 )
 
@@ -33,7 +33,7 @@ func (p *parties) CreateParty(ctx context.Context, ownerId string) (string, erro
 	}
 	if !userExists {
 		logrus.WithError(err).Error("User doesnt exist")
-		return "", fmt.Errorf("user doesnt exist")
+		return "", def.CreateClientError(400, "user doesnt exist")
 	}
 
 	insertSql := `

@@ -2,10 +2,10 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"sync"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/lite-social-presence-system/internal/def"
 	"github.com/sirupsen/logrus"
 )
 
@@ -33,7 +33,7 @@ func (f *friendRequests) SendFriendRequest(ctx context.Context, userId, requeste
 	}
 	if !userExists {
 		logrus.WithError(err).Error("User doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		return def.CreateClientError(400, "user doesnt exist")
 	}
 	requesterExists, err := usersTable.UserExists(ctx, requesterId)
 	if err != nil {
@@ -42,7 +42,7 @@ func (f *friendRequests) SendFriendRequest(ctx context.Context, userId, requeste
 	}
 	if !requesterExists {
 		logrus.WithError(err).Error("requester doesnt exist")
-		return fmt.Errorf("requester doesnt exist")
+		return def.CreateClientError(400, "requester doesnt exist")
 	}
 	exists, err := f.FriendRequestExists(ctx, userId, requesterId)
 	if err != nil {
@@ -51,7 +51,7 @@ func (f *friendRequests) SendFriendRequest(ctx context.Context, userId, requeste
 	}
 	if exists {
 		logrus.WithError(err).Error("Friend request already exists")
-		return err
+		return def.CreateClientError(409, "friend request already exists")
 	}
 	insertSql := `
 	insert into friend_requests(user_id,requester_id) 
@@ -86,7 +86,7 @@ func (f *friendRequests) AcceptFriendRequest(ctx context.Context, userId, reques
 	}
 	if !userExists {
 		logrus.WithError(err).Error("User doesnt exist")
-		return fmt.Errorf("user doesnt exist")
+		return def.CreateClientError(400, "user doesnt exist")
 	}
 	requesterExists, err := usersTable.UserExists(ctx, requesterId)
 	if err != nil {
@@ -95,7 +95,7 @@ func (f *friendRequests) AcceptFriendRequest(ctx context.Context, userId, reques
 	}
 	if !requesterExists {
 		logrus.WithError(err).Error("Requester doesnt exist")
-		return fmt.Errorf("requester doesnt exist")
+		return def.CreateClientError(400, "requester doesnt exist")
 	}
 	friendReqExists, err := f.db.GetFriendRequestsTable(ctx).FriendRequestExists(ctx, userId, requesterId)
 	if err != nil {
@@ -104,7 +104,7 @@ func (f *friendRequests) AcceptFriendRequest(ctx context.Context, userId, reques
 	}
 	if !friendReqExists {
 		logrus.WithError(err).Error("Friend request doesnt exist")
-		return fmt.Errorf("friend req doesnt exist")
+		return def.CreateClientError(400, "friend req doesnt exist")
 	}
 	insertSql := `
 	insert into friends(user_id,friend_id) 
@@ -128,7 +128,7 @@ func (f *friendRequests) RejectFriendRequest(ctx context.Context, userId, reques
 	}
 	if !friendReqExists {
 		logrus.WithError(err).Error("Friend request doesnt exist")
-		return fmt.Errorf("friend req doesnt exist")
+		return def.CreateClientError(400, "friend req doesnt exist")
 	}
 	insertSql := `
 	DELETE from friend_requests
