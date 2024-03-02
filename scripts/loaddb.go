@@ -119,7 +119,9 @@ func loadDB(ctx context.Context, conn *pgx.Conn) error {
 	insert into friends(user_id,friend_id)
 	values 
 	 ('bnb','hillock123'),
+	 ('hillock123','bnb'),
 	 ('hillock123','amanora45');
+	 ('amanora45','hillock123');
 	`
 	ct, err = conn.Exec(ctx, query)
 	if err != nil {
