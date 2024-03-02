@@ -1,4 +1,5 @@
 FROM golang:1.21
+ENV env_name John
 WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
