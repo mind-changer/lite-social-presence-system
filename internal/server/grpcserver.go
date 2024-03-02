@@ -35,7 +35,7 @@ func registerGrpcServices(s *grpc.Server, cfg *config.Config) {
 }
 
 func RunGRPCServer(cfg *config.Config) {
-	listener, err := net.Listen("tcp", ":81")
+	listener, err := net.Listen("tcp", "0.0.0.0:81")
 	if err != nil {
 		logrus.Fatalf("failed to listen: %v", err)
 	}

@@ -19,7 +19,6 @@ func main() {
 		logrus.Fatal("SERVER QUIT ERROR- Error while loading env config ", err.Error())
 		return
 	}
-
-	go server.RunHTTPServer(cfg)
-	server.RunGRPCServer(cfg)
+	go server.RunGRPCServer(cfg)
+	server.RunHTTPServer(cfg)
 }

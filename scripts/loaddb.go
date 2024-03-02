@@ -29,7 +29,7 @@ func main() {
 	fmt.Println("postgres url", url)
 	conn, dbErr := pgx.Connect(ctx, url)
 	if dbErr != nil {
-		logrus.Fatalf("Unable to connect to server: %v\n", err)
+		logrus.Fatalf("Unable to connect to server: %v url: %s\n", dbErr, url)
 		return
 	}
 	dbErr = createDB(ctx, conn)
