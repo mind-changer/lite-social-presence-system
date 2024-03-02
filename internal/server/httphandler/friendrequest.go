@@ -59,7 +59,7 @@ func RejectFriendRequestHandler(cfg *config.Config) func(w http.ResponseWriter, 
 			util.SendErrorResponse(w, 500, "error while getting db object")
 			return
 		}
-		if err := d.GetFriendRequestsTable(ctx).RejectFriendRequest(ctx, userId, requesterId); err != nil {
+		if err := d.GetFriendRequestsTable(ctx).DeleteFriendRequest(ctx, userId, requesterId); err != nil {
 			logrus.WithError(err).Error("Error while rejecting friend request")
 			util.SendErrorResponse(w, 500, "error while rejecting friend request")
 			return

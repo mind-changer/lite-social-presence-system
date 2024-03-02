@@ -37,7 +37,7 @@ func registerAPIHandlers(r *mux.Router, cfg *config.Config) {
 	r.HandleFunc("/lite-social-presence-system/users/{user-id}/party-invitations/{party-id}", httphandler.RejectPartyInvitationHandler(cfg)).Methods("DELETE")
 
 	//KICK party member
-	r.HandleFunc("/lite-social-presence-system/users/{user-id}/parties/{party-id}/members/{member_id}", httphandler.KickPartyMemberHandler(cfg)).Methods("DELETE")
+	r.HandleFunc("/lite-social-presence-system/users/{user-id}/parties/{party-id}/members/{member-id}", httphandler.KickPartyMemberHandler(cfg)).Methods("DELETE")
 
 	//LEAVE party
 	r.HandleFunc("/lite-social-presence-system/users/{user-id}/joined-parties/current/{party-id}", httphandler.LeavePartyHandler(cfg)).Methods("DELETE")

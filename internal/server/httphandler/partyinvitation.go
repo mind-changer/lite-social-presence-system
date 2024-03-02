@@ -108,7 +108,7 @@ func RejectPartyInvitationHandler(cfg *config.Config) func(w http.ResponseWriter
 			util.SendErrorResponse(w, 500, "error while getting db object")
 			return
 		}
-		if err := d.GetPartyInvitationsTable(ctx).RejectPartyInvitation(ctx, partyId, userId); err != nil {
+		if err := d.GetPartyInvitationsTable(ctx).DeletePartyInvitation(ctx, partyId, userId); err != nil {
 			logrus.WithError(err).Error("Error while rejecting party invitation")
 			util.SendErrorResponse(w, 500, "error while rejecting party invitation")
 			return
