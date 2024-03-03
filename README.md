@@ -47,32 +47,32 @@ You can import the http_lite_social_presence_system.postman_collection.json file
 
 Friends
 
-1. You can view friends of userid "bnb"
+You can view friends of userid "bnb"
 `curl --location 'localhost:80/lite-social-presence-system/users/bnb/friends'`
 ![Screenshot (14)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/1388b6b1-4d8b-4950-ad79-441c7081f672)
 
-2. User "bnb" sends a friend request to user "supergamer"
+User "bnb" sends a friend request to user "supergamer"
 ![Screenshot (15)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/0aa6c4a6-73b2-4f5e-9cb5-e31aba944da3)
 
 We see a new record in the friend_requests table
 ![Screenshot (16)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/84cc62f5-0694-4ba1-99d2-07b6d428f4e1)
 
-4. User "supergamer" now accepts bnb's friend request
+User "supergamer" now accepts bnb's friend request
 ![Screenshot (17)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/6f9c533a-f744-4d96-9955-f3525378523c)
 
 We can see supergamer has been added as a friend of bnb
 ![Screenshot (18)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/6f2404f1-af42-4f8c-9c6f-068785e07b67)
 
-6. Now bnb wants to remove supergamer from being a friend
+Now bnb wants to remove supergamer from being a friend
 ![Screenshot (19)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/fbbb4d92-a3a1-48d2-be89-9064099f7e34)
 
 We see the record of friends has been updated
 ![Screenshot (20)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/163d23fe-9645-4377-8076-1bc9c4d08d66)
 
-8. Now bnb sends a friend request again
+Now bnb sends a friend request again
 ![Screenshot (21)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/c80acb45-ce43-4e68-bdfa-e00a8ae7ec4b)
 
-10. supergamer rejects bnb's friend request
+supergamer rejects bnb's friend request
 ![Screenshot (22)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/a635610a-76ec-49f4-ba32-1612b5a04063)
 
 Friends table looks like this now
@@ -84,42 +84,64 @@ Friend request deleted
 
 Party
 
-1. create party
+User "bnb" creates a new party. The party ID is returned in the response.
 ![Screenshot (25)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/516699b1-e71e-440a-bc0c-c078cc331901)
+
+Parties table shows a new party with it's ID and owner
 ![Screenshot (26)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/d06fcdd4-8447-4830-8f27-1cb852201682)
 
-3. invite friend to party
+User "bnb" invites his friend "hillock123" to his party
 ![Screenshot (27)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/ac9e4481-a96a-4d2d-9e72-f7f09b86f17f)
+
+Party invitations table looks like
 ![Screenshot (28)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/0683f9f9-67d7-4c33-8eab-721795942c26)
+
+Party members table looks like
 ![Screenshot (29)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/9b2a2157-7925-4e91-999b-49bd2c2c8467)
 
-5. accept invitation
+User "hillock123" accepts the party invitation and joins bnb's party
 ![Screenshot (30)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/03cb9c0d-37c6-4065-b375-5987c7d3fe48)
+
+Party members table looks like
 ![Screenshot (31)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/cd82c2ec-d22d-48ad-ac00-c89f635b79f0)
+
+Party invitations table looks like
 ![Screenshot (32)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/018e936a-134d-4afb-b2ce-652ccf66680f)
 
-7. leave party
+User "hillock123" leaves the party
 ![Screenshot (33)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/d6c890b6-ef76-4d0d-beec-5b7767dc8746)
+
+Party members table looks like
 ![Screenshot (34)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/50f50b91-9146-420e-a246-8f7fd1057545)
 
-9. send invitation again
+User "bnb" sends a party invitation again to "hillock123"
 ![Screenshot (35)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/9b688c2c-47e3-4bdb-a2b6-10f1b7bd82e6)
+
+Party invitations table looks like
 ![Screenshot (36)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/4fcad6a4-23e8-4093-8ee6-f93a4132fa61)
 
-11. reject invitation
+User "hillock123" rejects the party invitation
 ![Screenshot (37)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/b422b906-6aed-4c91-8fa2-0497b62023b1)
+
+Party invitations table looks like
 ![Screenshot (38)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/898db524-607b-46c7-a134-48490bf6762c)
+
+Party members table looks like
 ![Screenshot (39)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/b86e3bf2-892c-4d4c-984b-dfe1654b7b02)
 
-13. send invitation again
+User "bnb" sends a party invitation again to "hillock123"
 ![Screenshot (40)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/d915a0b9-4ed3-4aa2-8465-30d9253c190b)
 
-15. accept invitation
+User "hillock123" accepts the party invitation and joins bnb's party
 ![Screenshot (41)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/2938b847-93b1-4900-86a4-8c83925a9c7f)
 
-17. kick member
+User "bnb" kicks out "hillock123" out of his party
 ![Screenshot (42)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/9a0d5f9d-5562-48d1-bb05-99663c029b4b)
+
+Party members table looks like
 ![Screenshot (43)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/a5c273ef-fe95-48d1-8f53-cd6771f21cda)
+
+Party invitation table looks like
 ![Screenshot (44)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/d0690e03-2eff-44db-a40e-81131ca5370a)
 
 ### gRPC services
