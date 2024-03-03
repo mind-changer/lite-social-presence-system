@@ -43,30 +43,41 @@ Now you can run any http calls on localhost:80 and grpc calls on localhost:81 us
 You can import the http_lite_social_presence_system.postman_collection.json file into your postman to test out the HTTP APIs
 
 ## APIs
-### Update user online status
-###  View Friends
+
+### Update user online status API
+```
+curl --location --request PUT 'localhost:80/lite-social-presence-system/users/hillock123/status' \
+--header 'Content-Type: application/json' \
+--data '{
+    "userStatus":"offline"
+}'
+```
+
+###  View Friends API
 ```curl --location 'localhost:80/lite-social-presence-system/users/bnb/friends'```
 
-### Send friend request
-```curl --location 'localhost:80/lite-social-presence-system/users/bnb/friends' \
+### Send friend request API
+```
+curl --location 'localhost:80/lite-social-presence-system/users/bnb/friends' \
 --header 'Content-Type: application/json' \
 --data '{
     "userId":"supergamer"
 }'
 ```
-### Accept friend request
+
+### Accept friend request API
 ```curl --location --request PATCH 'localhost:80/lite-social-presence-system/users/supergamer/friend-requests/bnb'```
 
-### Reject friend request
+### Reject friend request API
 ```curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/supergamer/friend-requests/bnb'```
 
-### Remove friend
+### Remove friend API
 ```curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/bnb/friends/supergamer'```
 
-### Create party
+### Create party API
 ```curl --location --request POST 'localhost:80/lite-social-presence-system/users/bnb/parties'```
 
-### Send party invitation
+### Send party invitation API
 ```
 curl --location 'localhost:80/lite-social-presence-system/users/bnb/parties/84959188-6229-4a14-bff9-6d0d9790b8e6/member-invitations' \
 --header 'Content-Type: application/json' \
@@ -75,16 +86,16 @@ curl --location 'localhost:80/lite-social-presence-system/users/bnb/parties/8495
 }'
 ```
 
-### Accept party invitation
+### Accept party invitation API
 ```curl --location --request PATCH 'localhost:80/lite-social-presence-system/users/hillock123/party-invitations/84959188-6229-4a14-bff9-6d0d9790b8e6'```
 
-### Reject party invitation
+### Reject party invitation API
 ```curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/hillock123/party-invitations/84959188-6229-4a14-bff9-6d0d9790b8e6'```
 
-### Leave party
+### Leave party API
 ```curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/hillock123/joined-parties/current/84959188-6229-4a14-bff9-6d0d9790b8e6'```
 
-### Kick party member
+### Kick party member API
 ```curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/bnb/parties/84959188-6229-4a14-bff9-6d0d9790b8e6/members/hillock123'```
 
 ## gRPC
