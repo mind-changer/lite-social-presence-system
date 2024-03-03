@@ -48,7 +48,7 @@ func RunHTTPServer(cfg *config.Config) {
 	r := mux.NewRouter()
 	registerAPIHandlers(r, cfg)
 	httpServer := http.Server{
-		Addr:         "127.0.0.1:80",
+		Addr:         "0.0.0.0:80",
 		Handler:      r,
 		ReadTimeout:  1 * time.Minute,
 		WriteTimeout: 1 * time.Minute,
