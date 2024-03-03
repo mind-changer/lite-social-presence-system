@@ -47,14 +47,20 @@ You can import the http_lite_social_presence_system.postman_collection.json file
 
 Friends
 
-1. view friends
+1. You can view friends of userid "bnb"
+`curl --location 'localhost:80/lite-social-presence-system/users/bnb/friends'`
 ![Screenshot (14)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/1388b6b1-4d8b-4950-ad79-441c7081f672)
-2. send friend request
+
+2. User "bnb" sends a friend request to user "supergamer"
 ![Screenshot (15)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/0aa6c4a6-73b2-4f5e-9cb5-e31aba944da3)
+
+We see a new record in the friend_requests table
 ![Screenshot (16)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/84cc62f5-0694-4ba1-99d2-07b6d428f4e1)
 
-4. accept friend request
+4. User "supergamer" now accepts bnb's friend request
 ![Screenshot (17)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/6f9c533a-f744-4d96-9955-f3525378523c)
+
+We can see supergamer has been added as a friend of bnb
 ![Screenshot (18)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/6f2404f1-af42-4f8c-9c6f-068785e07b67)
 
 6. remove friend
