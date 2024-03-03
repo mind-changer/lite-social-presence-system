@@ -63,16 +63,22 @@ We see a new record in the friend_requests table
 We can see supergamer has been added as a friend of bnb
 ![Screenshot (18)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/6f2404f1-af42-4f8c-9c6f-068785e07b67)
 
-6. remove friend
+6. Now bnb wants to remove supergamer from being a friend
 ![Screenshot (19)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/fbbb4d92-a3a1-48d2-be89-9064099f7e34)
+
+We see the record of friends has been updated
 ![Screenshot (20)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/163d23fe-9645-4377-8076-1bc9c4d08d66)
 
-8. send friend request again
+8. Now bnb sends a friend request again
 ![Screenshot (21)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/c80acb45-ce43-4e68-bdfa-e00a8ae7ec4b)
 
-10. reject friend request
+10. supergamer rejects bnb's friend request
 ![Screenshot (22)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/a635610a-76ec-49f4-ba32-1612b5a04063)
+
+Friends table looks like this now
 ![Screenshot (23)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/105cf5f2-059b-40dc-a963-e367886b80d5)
+
+Friend request deleted
 ![Screenshot (24)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/2a8dfa0b-a7df-49a1-b836-77dc845610d4)
 
 
