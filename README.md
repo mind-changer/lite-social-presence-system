@@ -50,3 +50,26 @@ Now you can run any http calls on localhost:80 and grpc calls on localhost:81 us
 ## Postman
 
 You can import the http_lite_social_presence_system.postman_collection.json file into your postman to test out the HTTP APIs
+
+## API testing
+
+Friends
+
+1. send friend request
+
+2. accept friend request
+3. remove friend
+4. send friend request again
+5. reject friend request
+
+Party
+
+1. create party
+2. invite friend to party
+3. accept invitation
+4. leave party
+5. send invitation again
+6. reject invitation
+7. send invitation again
+8. accept invitation 
+9. kick member
