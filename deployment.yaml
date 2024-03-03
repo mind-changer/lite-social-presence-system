@@ -1,31 +1,87 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: lite-social-presence-system-deployment
-  labels:
-    app: lite-social-presence-system-app
+  name: postgres
 spec:
   selector:
     matchLabels:
-      app:  lite-social-presence-system-app
-  replicas: 1
-  strategy:
-    type: RollingUpdate
+      app: postgres
   template:
     metadata:
       labels:
-        app:  lite-social-presence-system-app
+        app: postgres
     spec:
       containers:
-        - name:  lite-social-presence-system
-          image: docker.io/library/lite-social-presence-system-app:latest
-          imagePullPolicy: Never
-          resources:
-            limits:
-              memory: 200Mi
-            requests:
-              cpu: 100m
-              memory: 200Mi
-          ports:
-            - containerPort: 80
-            - containerPort: 81
+      - name: postgres
+        image: postgres:latest
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: mydb
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: postgres
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  ports:
+  - port: 5432
+  selector:
+    app: postgres
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - image: lite-social-presence-system:latest
+        name: webapp
+        imagePullPolicy: Never
+        env:
+        - name: POSTGRES_HOST
+          value: postgres
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DATABASE
+          value: mydb
+        - name: POSTGRES_USERNAME
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: postgres
+        ports:
+        - containerPort: 80
+        - containerPort: 81
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+spec:
+  type: NodePort
+  ports:
+    - nodePort: 31317
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: webapp

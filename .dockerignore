@@ -4,3 +4,4 @@ compose.yaml
 deployment.yaml
 LICENSE
 Makefile
+.git
