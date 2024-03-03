@@ -1,0 +1,301 @@
+{
+	"info": {
+		"_postman_id": "e7f92305-f0a4-4c8c-913f-689a0c270978",
+		"name": "http Lite social presence system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33269370"
+	},
+	"item": [
+		{
+			"name": "update user status",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userStatus\":\"offline\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:80/lite-social-presence-system/users/hillock123/status",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"lite-social-presence-system",
+						"users",
+						"hillock123",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "send friend request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\":\"supergamer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:80/lite-social-presence-system/users/bnb/friends",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"lite-social-presence-system",
+						"users",
+						"bnb",
+						"friends"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view friends",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:80/lite-social-presence-system/users/bnb/friends",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"lite-social-presence-system",
+						"users",
+						"bnb",
+						"friends"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove friend",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:80/lite-social-presence-system/users/bnb/friends/supergamer",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"lite-social-presence-system",
+						"users",
+						"bnb",
+						"friends",
+						"supergamer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "accept friend request",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "localhost:80/lite-social-presence-system/users/supergamer/friend-requests/bnb",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"lite-social-presence-system",
+						"users",
+						"supergamer",
+						"friend-requests",
+						"bnb"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reject friend request",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:80/lite-social-presence-system/users/supergamer/friend-requests/bnb",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"lite-social-presence-system",
+						"users",
+						"supergamer",
+						"friend-requests",
+						"bnb"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create party",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:80/lite-social-presence-system/users/bnb/parties",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"lite-social-presence-system",
+						"users",
+						"bnb",
+						"parties"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "invite to party",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\":\"hillock123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:80/lite-social-presence-system/users/bnb/parties/84959188-6229-4a14-bff9-6d0d9790b8e6/member-invitations",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"lite-social-presence-system",
+						"users",
+						"bnb",
+						"parties",
+						"84959188-6229-4a14-bff9-6d0d9790b8e6",
+						"member-invitations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "accept party invitation",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "localhost:80/lite-social-presence-system/users/hillock123/party-invitations/84959188-6229-4a14-bff9-6d0d9790b8e6",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"lite-social-presence-system",
+						"users",
+						"hillock123",
+						"party-invitations",
+						"84959188-6229-4a14-bff9-6d0d9790b8e6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reject party invitation",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:80/lite-social-presence-system/users/hillock123/party-invitations/84959188-6229-4a14-bff9-6d0d9790b8e6",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"lite-social-presence-system",
+						"users",
+						"hillock123",
+						"party-invitations",
+						"84959188-6229-4a14-bff9-6d0d9790b8e6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "leave party",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:80/lite-social-presence-system/users/hillock123/joined-parties/current/84959188-6229-4a14-bff9-6d0d9790b8e6",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"lite-social-presence-system",
+						"users",
+						"hillock123",
+						"joined-parties",
+						"current",
+						"84959188-6229-4a14-bff9-6d0d9790b8e6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "kick party member",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:80/lite-social-presence-system/users/bnb/parties/84959188-6229-4a14-bff9-6d0d9790b8e6/members/hillock123",
+					"host": [
+						"localhost"
+					],
+					"port": "80",
+					"path": [
+						"lite-social-presence-system",
+						"users",
+						"bnb",
+						"parties",
+						"84959188-6229-4a14-bff9-6d0d9790b8e6",
+						"members",
+						"hillock123"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
