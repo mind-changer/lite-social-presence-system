@@ -54,7 +54,9 @@ curl --location --request PUT 'localhost:80/lite-social-presence-system/users/hi
 ```
 
 ###  View Friends API
-```curl --location 'localhost:80/lite-social-presence-system/users/bnb/friends'```
+```
+curl --location 'localhost:80/lite-social-presence-system/users/bnb/friends'
+```
 
 ### Send friend request API
 ```
@@ -66,16 +68,24 @@ curl --location 'localhost:80/lite-social-presence-system/users/bnb/friends' \
 ```
 
 ### Accept friend request API
-```curl --location --request PATCH 'localhost:80/lite-social-presence-system/users/supergamer/friend-requests/bnb'```
+```
+curl --location --request PATCH 'localhost:80/lite-social-presence-system/users/supergamer/friend-requests/bnb'
+```
 
 ### Reject friend request API
-```curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/supergamer/friend-requests/bnb'```
+```
+curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/supergamer/friend-requests/bnb'
+```
 
 ### Remove friend API
-```curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/bnb/friends/supergamer'```
+```
+curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/bnb/friends/supergamer'
+```
 
 ### Create party API
-```curl --location --request POST 'localhost:80/lite-social-presence-system/users/bnb/parties'```
+```
+curl --location --request POST 'localhost:80/lite-social-presence-system/users/bnb/parties'
+```
 
 ### Send party invitation API
 ```
@@ -87,16 +97,24 @@ curl --location 'localhost:80/lite-social-presence-system/users/bnb/parties/8495
 ```
 
 ### Accept party invitation API
-```curl --location --request PATCH 'localhost:80/lite-social-presence-system/users/hillock123/party-invitations/84959188-6229-4a14-bff9-6d0d9790b8e6'```
+```
+curl --location --request PATCH 'localhost:80/lite-social-presence-system/users/hillock123/party-invitations/84959188-6229-4a14-bff9-6d0d9790b8e6'
+```
 
 ### Reject party invitation API
-```curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/hillock123/party-invitations/84959188-6229-4a14-bff9-6d0d9790b8e6'```
+```
+curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/hillock123/party-invitations/84959188-6229-4a14-bff9-6d0d9790b8e6'
+```
 
 ### Leave party API
-```curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/hillock123/joined-parties/current/84959188-6229-4a14-bff9-6d0d9790b8e6'```
+```
+curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/hillock123/joined-parties/current/84959188-6229-4a14-bff9-6d0d9790b8e6'
+```
 
 ### Kick party member API
-```curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/bnb/parties/84959188-6229-4a14-bff9-6d0d9790b8e6/members/hillock123'```
+```
+curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/bnb/parties/84959188-6229-4a14-bff9-6d0d9790b8e6/members/hillock123'
+```
 
 ## gRPC
 ### Get user online status
@@ -110,7 +128,6 @@ check the tested example below https://github.com/mind-changer/lite-social-prese
 #### Friends
 
 You can view friends of userid "bnb"
-`curl --location 'localhost:80/lite-social-presence-system/users/bnb/friends'`
 ![Screenshot (14)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/1388b6b1-4d8b-4950-ad79-441c7081f672)
 
 User "bnb" sends a friend request to user "supergamer"
