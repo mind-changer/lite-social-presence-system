@@ -123,7 +123,7 @@ check the tested example below https://github.com/mind-changer/lite-social-prese
 ### Get real time party members
 check the tested example below https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#grpc-services
 
-## Testing
+## Testing(screenshots might take time to load)
 ### HTTP RESTful APIs
 
 #### Friends
