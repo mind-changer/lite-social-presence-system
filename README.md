@@ -11,12 +11,11 @@ Steps:
 
 1. Start docker daemon
 2. Open cmd
-3. `docker compose build`
-4. `docker compose up`
+3. Build docker image: `docker compose build`
+4. Run docker compose: `docker compose up`
 5. Enter the shell of postgres container: `docker compose exec postgres sh`
-6. `psql -U postgres -d mydb` OR  You can go to http://localhost:5050 and login with username as `admin@admin.com` and password as `admin`. Next, create a new server with name as `postgres` and fill connection details with host, username, password as `postgres`
-
-7. Enter the shell of web container: `docker compose exec web sh`
+6. Run the following command in the postgres container shell to connect to mydb: `psql -U postgres -d mydb` OR Alternatively, you can go to http://localhost:5050 and login with username as `admin@admin.com` and password as `admin` and then create a new server with name as `postgres` and fill connection details with host, username, password as `postgres`
+7. Exit from the postgres container shell. Now, enter the shell of web container: `docker compose exec web sh`
 8. Run the scripts/loaddb.go script inside the web container to load initial dummy db records: `go run ./scripts/loaddb.go`
 
 Open postman or you can use curl and run any http calls on localhost:80 and grpc calls on localhost:81
@@ -27,11 +26,11 @@ Steps:
 
 1. Start docker daemon
 2. Start minikube: minikube start
-3. Apply the kubernetes config: `kubectl apply -f deployment.yaml`
+3. Apply the kubernetes config file: `kubectl apply -f deployment.yaml`
 4. Grab the postgres pod name using: `kubectl get all`
 5. Enter the bash of the postgres pod. Run this command by replacing "postgres-859fb969d4-9tkqk" with the pod name: `kubectl exec -it postgres-859fb969d4-9tkqk -- /bin/bash`
-6. `psql -U postgres -d mydb`
-7. Enter the bash of the webapp pod. Run this command by replacing "pod/webapp-5cc44dfd5f-z5m2v" with the pod name: `kubectl exec -it pod/webapp-5cc44dfd5f-z5m2v -- /bin/bash`
+6. Run the following command in the postgres pod bash to connect to mydb:`psql -U postgres -d mydb`
+7. Exit from the postgres pod bash. Now, enter the bash of the webapp pod. Run this command by replacing "pod/webapp-5cc44dfd5f-z5m2v" with the pod name: `kubectl exec -it pod/webapp-5cc44dfd5f-z5m2v -- /bin/bash`
 8. Run the scripts/loaddb.go script inside the webapp pod to load initial dummy db records: `go run ./scripts/loaddb.go`
 9. Forward the http and grpc ports in two separate terminals 
 `kubectl port-forward deployment.apps/webapp 80:80`
