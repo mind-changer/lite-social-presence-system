@@ -42,10 +42,16 @@ Now you can run any http calls on localhost:80 and grpc calls on localhost:81 us
 
 You can import the http_lite_social_presence_system.postman_collection.json file into your postman to test out the HTTP APIs
 
-## API testing
+## APIs
+###  
+
+## gRPC
+### 
+
+## testing
 ### HTTP RESTful APIs
 
-Friends
+#### Friends
 
 You can view friends of userid "bnb"
 `curl --location 'localhost:80/lite-social-presence-system/users/bnb/friends'`
@@ -81,8 +87,7 @@ Friends table looks like this now
 Friend request deleted
 ![Screenshot (24)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/2a8dfa0b-a7df-49a1-b836-77dc845610d4)
 
-
-Party
+#### Party
 
 User "bnb" creates a new party. The party ID is returned in the response.
 ![Screenshot (25)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/516699b1-e71e-440a-bc0c-c078cc331901)
@@ -146,8 +151,11 @@ Party invitation table looks like
 
 ### gRPC services
 
-1. Get user online status
+#### Get user online status
+
+Get User "hillock123" online status. The value of status is checked and sent every 5 seconds to the client. Currently he's online.
 ![Screenshot (45)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/d0b5449b-b885-4235-b5da-c5a70557a8ad)
+
 ![Screenshot (46)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/3e626785-d3c0-4c45-b2a5-c5d5dd5f0580)
 
 Now update user online status to "offline"
@@ -156,12 +164,17 @@ Now update user online status to "offline"
 User's real time online status changes from "online" to "offline"
 ![Screenshot (48)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/8f86f89f-5141-4bcc-b446-8ca64706724e)
 
-2. Get real time party member status
+#### Get real time party member status
+
+Get the party members of a party real time, using party ID. The latest party members are checked and sent every 5 seconds to the client.
 ![Screenshot (49)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/3683d777-8ae6-46ce-b77d-415ff1e15241)
+
 Invite a member to the party
 ![Screenshot (50)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/e1406ae3-f360-4d84-b910-0d441b738bd3)
+
 User accepts party invitation and joins the party
 ![Screenshot (51)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/72e1e289-d3e9-4e5c-9157-29a931c617d5)
+
 The party member list is updated
 ![Screenshot (52)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/ee31a496-5c45-42db-8d33-f62f389ad510)
 
