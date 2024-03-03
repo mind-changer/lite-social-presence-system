@@ -55,12 +55,26 @@ You can import the http_lite_social_presence_system.postman_collection.json file
 
 Friends
 
-1. send friend request
+1. view friends
+![Screenshot (14)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/1388b6b1-4d8b-4950-ad79-441c7081f672)
+2. send friend request
+![Screenshot (15)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/0aa6c4a6-73b2-4f5e-9cb5-e31aba944da3)
+![Screenshot (16)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/84cc62f5-0694-4ba1-99d2-07b6d428f4e1)
 
-2. accept friend request
-3. remove friend
-4. send friend request again
-5. reject friend request
+4. accept friend request
+![Screenshot (17)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/6f9c533a-f744-4d96-9955-f3525378523c)
+![Screenshot (18)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/6f2404f1-af42-4f8c-9c6f-068785e07b67)
+
+6. remove friend
+![Screenshot (19)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/fbbb4d92-a3a1-48d2-be89-9064099f7e34)
+![Screenshot (20)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/163d23fe-9645-4377-8076-1bc9c4d08d66)
+
+8. send friend request again
+![Screenshot (21)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/c80acb45-ce43-4e68-bdfa-e00a8ae7ec4b)
+
+10. reject friend request
+![Screenshot (22)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/a635610a-76ec-49f4-ba32-1612b5a04063)
+
 
 Party
 
