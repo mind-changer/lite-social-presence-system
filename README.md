@@ -5,7 +5,24 @@ Clone the source code using:
 1. `git clone https://github.com/mind-changer/lite-social-presence-system.git`
 2. `cd lite-social-presence-system`
 
-## Docker
+## Table of Contents
+[Docker compose setup](https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#docker)
+
+[Kubernetes setup](https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#kubernetes)
+
+[Initial dummy data](https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#initial-dummy-data)
+
+[Postman](https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#postman)
+
+[API specification](https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#apis)
+
+[gRPC specification](https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#grpc)
+
+[API testing](https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#testingscreenshots-might-take-time-to-load)
+
+[Future improvements](https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#future-impovements)
+
+## Docker compose
 
 Steps:
 
