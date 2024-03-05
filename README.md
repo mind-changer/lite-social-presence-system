@@ -243,10 +243,23 @@ curl --location --request DELETE 'localhost:80/lite-social-presence-system/users
 ```
 
 ## gRPC
+Import proto/onlinestatus.proto definition
 ### Get user online status
+Example message:
+```
+{
+    "user_id": "hillock123"
+}
+```
 check the tested example below https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#grpc-services
 
 ### Get real time party members
+Example message:
+```
+{
+    "party_id": "84959188-6229-4a14-bff9-6d0d9790b8e6"
+}
+```
 check the tested example below https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#grpc-services
 
 ## Testing(screenshots might take time to load)
