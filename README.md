@@ -45,6 +45,18 @@ You can import the http_lite_social_presence_system.postman_collection.json file
 ## APIs
 
 ### Update user online status API
+This API will update the user's online status.
+
+Path parameter
+1. user-id: ID of the user
+
+Request body
+1. userStatus: status of the user
+
+Response body
+1. status: status of operation
+
+
 ```
 curl --location --request PUT 'localhost:80/lite-social-presence-system/users/{user-id}/status' \
 --header 'Content-Type: application/json' \
@@ -54,11 +66,23 @@ curl --location --request PUT 'localhost:80/lite-social-presence-system/users/{u
 ```
 
 ###  View Friends API
+Path parameter
+1. user-id: ID of the user
+
 ```
 curl --location 'localhost:80/lite-social-presence-system/users/{user-id}/friends'
 ```
 
 ### Send friend request API
+Path parameter
+1. user-id: ID of the user
+
+Request body
+1. userId: userID of the person you want to befriend
+
+Response body
+1. status: status of operation
+
 ```
 curl --location 'localhost:80/lite-social-presence-system/users/{user-id}/friends' \
 --header 'Content-Type: application/json' \
@@ -68,26 +92,63 @@ curl --location 'localhost:80/lite-social-presence-system/users/{user-id}/friend
 ```
 
 ### Accept friend request API
+Path parameter
+1. user-id: ID of the user
+2. requester-id: userID of the personing requesting to be your friend
+
+Response body
+1. status: status of operation
+
 ```
 curl --location --request PATCH 'localhost:80/lite-social-presence-system/users/{user-id}/friend-requests/{requester-id}'
 ```
 
 ### Reject friend request API
+Path parameter
+1. user-id: ID of the user
+2. requester-id: userID of the personing requesting to be your friend
+
+Response body
+1. status: status of operation
+
 ```
 curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/{user-id}/friend-requests/{requester-id}'
 ```
 
 ### Remove friend API
+Path parameter
+1. user-id: ID of the user
+2. friend-id: userID of the friend
+
+Response body
+1. status: status of operation
+   
 ```
 curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/{user-id}/friends/{friend-id}'
 ```
 
 ### Create party API
+Path parameter
+1. user-id: ID of the user
+
+Response body
+1. partyId: status of operation
+   
 ```
 curl --location --request POST 'localhost:80/lite-social-presence-system/users/{user-id}/parties'
 ```
 
 ### Send party invitation API
+Path parameter
+1. user-id: ID of the user
+2. party-id: ID of the party, which is sent in the Create Party API response
+
+Request body
+1. userId: userID of the person you want to send party invitation
+
+Response body
+1. status: status of operation
+
 ```
 curl --location 'localhost:80/lite-social-presence-system/users/{user-id}/parties/{party-id}/member-invitations' \
 --header 'Content-Type: application/json' \
@@ -97,21 +158,48 @@ curl --location 'localhost:80/lite-social-presence-system/users/{user-id}/partie
 ```
 
 ### Accept party invitation API
+Path parameter
+1. user-id: ID of the user
+2. party-id: ID of the party, which is sent in the Create Party API response
+
+Response body
+1. status: status of operation
+
 ```
 curl --location --request PATCH 'localhost:80/lite-social-presence-system/users/{user-id}/party-invitations/{party-id}'
 ```
 
 ### Reject party invitation API
+Path parameter
+1. user-id: ID of the user
+2. party-id: ID of the party, which is sent in the Create Party API response
+
+Response body
+1. status: status of operation
 ```
 curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/{user-id}/party-invitations/{party-id}'
 ```
 
 ### Leave party API
+Path parameter
+1. user-id: ID of the user
+2. party-id: ID of the party, which is sent in the Create Party API response
+
+Response body
+1. status: status of operation
+   
 ```
 curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/{user-id}/joined-parties/current/{party-id}'
 ```
 
 ### Kick party member API
+Path parameter
+1. user-id: ID of the user
+2. party-id: ID of the party, which is sent in the Create Party API response
+3. member-id: userID of the party member to be kicked
+
+Response body
+1. status: status of operation
 ```
 curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/{user-id}/parties/{party-id}/members/{member-id}'
 ```
