@@ -6,21 +6,21 @@ Clone the source code using:
 2. `cd lite-social-presence-system`
 
 ## Table of Contents
-[Docker compose setup](https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#docker)
+[Docker compose setup](https://github.com/mind-changer/lite-social-presence-system/tree/main?tab=readme-ov-file#docker-compose)
 
-[Kubernetes setup](https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#kubernetes)
+[Kubernetes setup](https://github.com/mind-changer/lite-social-presence-system/tree/main?tab=readme-ov-file#kubernetes)
 
-[Initial dummy data](https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#initial-dummy-data)
+[Initial dummy data](https://github.com/mind-changer/lite-social-presence-system/tree/main?tab=readme-ov-file#initial-dummy-data)
 
-[Postman](https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#postman)
+[Postman](https://github.com/mind-changer/lite-social-presence-system/tree/main?tab=readme-ov-file#postman)
 
-[API specification](https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#apis)
+[API specification](https://github.com/mind-changer/lite-social-presence-system/tree/main?tab=readme-ov-file#apis)
 
-[gRPC specification](https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#grpc)
+[gRPC specification](https://github.com/mind-changer/lite-social-presence-system/tree/main?tab=readme-ov-file#grpc)
 
-[API testing](https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#testingscreenshots-might-take-time-to-load)
+[API testing](https://github.com/mind-changer/lite-social-presence-system/tree/main?tab=readme-ov-file#testingscreenshots-might-take-time-to-load)
 
-[Future improvements](https://github.com/mind-changer/lite-social-presence-system/blob/main/README.md#future-impovements)
+[Future improvements](https://github.com/mind-changer/lite-social-presence-system/tree/main?tab=readme-ov-file#future-impovements)
 
 ## Docker compose
 
