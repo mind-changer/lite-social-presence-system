@@ -42,7 +42,7 @@ Now you can run any http calls on localhost:80 and grpc calls on localhost:81 us
 When the scripts/loaddb.go is run, the following dummy data is added to the "mydb" database. You can play around with this data.
 
 | user_id | status   | 
-| :---:   | :---: | 
+| ------- | -------- |
 | bnb | online   | 
 | hillock123 | online   | 
 | amanora45 | online   | 
@@ -50,7 +50,7 @@ When the scripts/loaddb.go is run, the following dummy data is added to the "myd
 | supergamer | online   | 
 
 | user_id | friend_id   | 
-| :---:   | :---: | 
+| ------- | ----------- |
 | bnb | hillock123   | 
 | hillock123 | bnb   | 
 | hillock123 | amanora45   | 
