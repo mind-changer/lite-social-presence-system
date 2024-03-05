@@ -46,7 +46,7 @@ You can import the http_lite_social_presence_system.postman_collection.json file
 
 ### Update user online status API
 ```
-curl --location --request PUT 'localhost:80/lite-social-presence-system/users/hillock123/status' \
+curl --location --request PUT 'localhost:80/lite-social-presence-system/users/{user-id}/status' \
 --header 'Content-Type: application/json' \
 --data '{
     "userStatus":"offline"
@@ -55,41 +55,41 @@ curl --location --request PUT 'localhost:80/lite-social-presence-system/users/hi
 
 ###  View Friends API
 ```
-curl --location 'localhost:80/lite-social-presence-system/users/bnb/friends'
+curl --location 'localhost:80/lite-social-presence-system/users/{user-id}/friends'
 ```
 
 ### Send friend request API
 ```
-curl --location 'localhost:80/lite-social-presence-system/users/bnb/friends' \
+curl --location 'localhost:80/lite-social-presence-system/users/{user-id}/friends' \
 --header 'Content-Type: application/json' \
 --data '{
-    "userId":"supergamer"
+    "userId":"friendId"
 }'
 ```
 
 ### Accept friend request API
 ```
-curl --location --request PATCH 'localhost:80/lite-social-presence-system/users/supergamer/friend-requests/bnb'
+curl --location --request PATCH 'localhost:80/lite-social-presence-system/users/{user-id}/friend-requests/{requester-id}'
 ```
 
 ### Reject friend request API
 ```
-curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/supergamer/friend-requests/bnb'
+curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/{user-id}/friend-requests/{requester-id}'
 ```
 
 ### Remove friend API
 ```
-curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/bnb/friends/supergamer'
+curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/{user-id}/friends/{friend-id}'
 ```
 
 ### Create party API
 ```
-curl --location --request POST 'localhost:80/lite-social-presence-system/users/bnb/parties'
+curl --location --request POST 'localhost:80/lite-social-presence-system/users/{user-id}/parties'
 ```
 
 ### Send party invitation API
 ```
-curl --location 'localhost:80/lite-social-presence-system/users/bnb/parties/84959188-6229-4a14-bff9-6d0d9790b8e6/member-invitations' \
+curl --location 'localhost:80/lite-social-presence-system/users/{user-id}/parties/{party-id}/member-invitations' \
 --header 'Content-Type: application/json' \
 --data '{
     "userId":"hillock123"
@@ -98,22 +98,22 @@ curl --location 'localhost:80/lite-social-presence-system/users/bnb/parties/8495
 
 ### Accept party invitation API
 ```
-curl --location --request PATCH 'localhost:80/lite-social-presence-system/users/hillock123/party-invitations/84959188-6229-4a14-bff9-6d0d9790b8e6'
+curl --location --request PATCH 'localhost:80/lite-social-presence-system/users/{user-id}/party-invitations/{party-id}'
 ```
 
 ### Reject party invitation API
 ```
-curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/hillock123/party-invitations/84959188-6229-4a14-bff9-6d0d9790b8e6'
+curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/{user-id}/party-invitations/{party-id}'
 ```
 
 ### Leave party API
 ```
-curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/hillock123/joined-parties/current/84959188-6229-4a14-bff9-6d0d9790b8e6'
+curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/{user-id}/joined-parties/current/{party-id}'
 ```
 
 ### Kick party member API
 ```
-curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/bnb/parties/84959188-6229-4a14-bff9-6d0d9790b8e6/members/hillock123'
+curl --location --request DELETE 'localhost:80/lite-social-presence-system/users/{user-id}/parties/{party-id}/members/{member-id}'
 ```
 
 ## gRPC
