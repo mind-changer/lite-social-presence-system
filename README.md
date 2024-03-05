@@ -38,6 +38,24 @@ Steps:
 
 Now you can run any http calls on localhost:80 and grpc calls on localhost:81 using postman or curl
 
+## Initial dummy data
+When the scripts/loaddb.go is run, the following dummy data is added to the "mydb" database. You can play around with this data.
+
+| user_id | status   | 
+| :---:   | :---: | 
+| bnb | online   | 
+| hillock123 | online   | 
+| amanora45 | online   | 
+| blankSpac3 | online   | 
+| supergamer | online   | 
+
+| user_id | friend_id   | 
+| :---:   | :---: | 
+| bnb | hillock123   | 
+| hillock123 | bnb   | 
+| hillock123 | amanora45   | 
+| amanora45 | hillock123   | 
+
 ## Postman
 
 You can import the http_lite_social_presence_system.postman_collection.json file into your postman to test out the HTTP APIs
@@ -68,6 +86,9 @@ curl --location --request PUT 'localhost:80/lite-social-presence-system/users/{u
 ###  View Friends API
 Path parameter
 1. user-id: ID of the user
+
+Response body
+1. friends: array of userIDs of friends
 
 ```
 curl --location 'localhost:80/lite-social-presence-system/users/{user-id}/friends'
@@ -339,4 +360,7 @@ User accepts party invitation and joins the party
 
 The party member list is updated
 ![Screenshot (52)](https://github.com/mind-changer/lite-social-presence-system/assets/43662445/ee31a496-5c45-42db-8d33-f62f389ad510)
+
+## Future impovements
+1. Add transactions and triggers
 
